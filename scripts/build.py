@@ -90,36 +90,36 @@ def split2(s):
 
 
 def hero(c):
-    W, H = 1200, 420
-    wide = (text(600, 180, "Ojasva Mishra", 116, c["fg"], 700, -4, cls="rise")
-            + text(600, 262, "Software engineer at Northrop Grumman.", 34, c["gray"], 500, -.4, cls="rise2")
-            + text(600, 308, "Computer Engineering and Finance at the University of Florida.", 34, c["gray"], 500, -.4, cls="rise2"))
-    narrow = (text(600, 165, "Ojasva Mishra", 150, c["fg"], 700, -5, cls="rise")
-              + text(600, 262, "Software engineer at Northrop Grumman.", 54, c["gray"], 500, -.6, cls="rise2")
-              + text(600, 326, "Computer Engineering and Finance", 54, c["gray"], 500, -.6, cls="rise2")
-              + text(600, 390, "at the University of Florida.", 54, c["gray"], 500, -.6, cls="rise2"))
+    W, H = 1200, 450
+    wide = (text(600, 195, "Ojasva Mishra", 116, c["fg"], 700, -4, cls="rise")
+            + text(600, 277, "Software engineer at Northrop Grumman.", 34, c["gray"], 500, -.4, cls="rise2")
+            + text(600, 323, "Computer Engineering and Finance at the University of Florida.", 34, c["gray"], 500, -.4, cls="rise2"))
+    narrow = (text(600, 160, "Ojasva Mishra", 150, c["fg"], 700, -5, cls="rise")
+              + text(600, 262, "Software engineer at Northrop Grumman.", 60, c["gray"], 500, -.8, cls="rise2")
+              + text(600, 336, "Computer Engineering and Finance", 60, c["gray"], 500, -.8, cls="rise2")
+              + text(600, 410, "at the University of Florida.", 60, c["gray"], 500, -.8, cls="rise2"))
     body = f'<g class="w">{wide}</g><g class="n">{narrow}</g>'
     return svg(W, H, "Ojasva Mishra. Software engineer at Northrop Grumman. Computer Engineering and Finance at the University of Florida.", body, RISE + SWAP)
 
 
 def title(c, name, line, W=1200):
     if not line:
-        body = f'<g class="w">{text(W / 2, 74, name, 62, c["fg"], 700, -1.8)}</g><g class="n">{text(W / 2, 92, name, 96, c["fg"], 700, -2.5)}</g>'
-        return svg(W, 120, name, body, SWAP)
+        body = f'<g class="w">{text(W / 2, 74, name, 62, c["fg"], 700, -1.8)}</g><g class="n">{text(W / 2, 104, name, 112, c["fg"], 700, -3)}</g>'
+        return svg(W, 130, name, body, SWAP)
     a, b = split2(line)
-    wide = text(W / 2, 84, name, 62, c["fg"], 700, -1.8) + text(W / 2, 140, line, 30, c["gray"], 500, -.3)
-    narrow = (text(W / 2, 92, name, 96, c["fg"], 700, -2.5)
-              + text(W / 2, 162, a, 48, c["gray"], 500, -.5) + text(W / 2, 220, b, 48, c["gray"], 500, -.5))
-    return svg(W, 240, f"{name}. {line}", f'<g class="w">{wide}</g><g class="n">{narrow}</g>', SWAP)
+    wide = text(W / 2, 110, name, 62, c["fg"], 700, -1.8) + text(W / 2, 166, line, 30, c["gray"], 500, -.3)
+    narrow = (text(W / 2, 104, name, 112, c["fg"], 700, -3)
+              + text(W / 2, 190, a, 60, c["gray"], 500, -.8) + text(W / 2, 262, b, 60, c["gray"], 500, -.8))
+    return svg(W, 290, f"{name}. {line}", f'<g class="w">{wide}</g><g class="n">{narrow}</g>', SWAP)
 
 
 def stats(c, u):
     contrib = u["contributionsCollection"]["contributionCalendar"]["totalContributions"]
     items = ["3 first-author papers", "1,000+ Twinly users", f"{contrib:,} contributions this year"]
     s = "  ·  ".join(items)
-    wide = text(600, 50, s, 24, c["gray"], 500, -.2)
-    narrow = "".join(text(600, 52 + i * 56, t, 42, c["gray"], 500, -.4) for i, t in enumerate(items))
-    return svg(1200, 180, s, f'<g class="w">{wide}</g><g class="n">{narrow}</g>', SWAP)
+    wide = text(600, 60, s, 24, c["gray"], 500, -.2)
+    narrow = "".join(text(600, 60 + i * 66, t, 52, c["gray"], 500, -.6) for i, t in enumerate(items))
+    return svg(1200, 210, s, f'<g class="w">{wide}</g><g class="n">{narrow}</g>', SWAP)
 
 
 def photo(path, label, radius=28, crop=None):

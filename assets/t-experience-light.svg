@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="120" viewBox="0 0 1200 120" role="img" aria-label="Experience">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="130" viewBox="0 0 1200 130" role="img" aria-label="Experience">
 <style>
 .n { display: none; }
 @media (max-width: 700px) { .w { display: none; } .n { display: inline; } }
 
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }</style>
-<g class="w"><text x="600.0" y="74" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="62" font-weight="700" letter-spacing="-1.8" fill="#1d1d1f">Experience</text></g><g class="n"><text x="600.0" y="92" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="96" font-weight="700" letter-spacing="-2.5" fill="#1d1d1f">Experience</text></g>
+<g class="w"><text x="600.0" y="74" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="62" font-weight="700" letter-spacing="-1.8" fill="#1d1d1f">Experience</text></g><g class="n"><text x="600.0" y="104" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="112" font-weight="700" letter-spacing="-3" fill="#1d1d1f">Experience</text></g>
 </svg>

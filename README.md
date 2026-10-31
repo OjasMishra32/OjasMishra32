@@ -1,19 +1,19 @@
 <br>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/hero-dark.svg?v=8"><img alt="Ojasva Mishra. Software engineer at Northrop Grumman. Computer Engineering and Finance at the University of Florida." src="assets/hero-light.svg?v=8" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/hero-dark.svg?v=9"><img alt="Ojasva Mishra. Software engineer at Northrop Grumman. Computer Engineering and Finance at the University of Florida." src="assets/hero-light.svg?v=9" width="100%"></picture>
 
 <p align="center">
 <a href="https://ojasvamishra.me">ojasvamishra.me ›</a>&emsp;&emsp;<a href="https://linkedin.com/in/ojasvamishra">LinkedIn ›</a>
 </p>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/stats-dark.svg?v=8"><img alt="3 first-author papers, 1,000+ Twinly users, contributions this year." src="assets/stats-light.svg?v=8" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/stats-dark.svg?v=9"><img alt="3 first-author papers, 1,000+ Twinly users, contributions this year." src="assets/stats-light.svg?v=9" width="100%"></picture>
 
 <br><br><br>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/t-applytwin-dark.svg?v=8"><img alt="ApplyTwin. Your job search, on autopilot. Free and open source." src="assets/t-applytwin-light.svg?v=8" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/t-applytwin-dark.svg?v=9"><img alt="ApplyTwin. Your job search, on autopilot. Free and open source." src="assets/t-applytwin-light.svg?v=9" width="100%"></picture>
 
 <p align="center">
-Finds internships that fit you, tailors a resume to each posting,<br>and fills the applications on your own Claude Code or Codex plan.
+Finds internships that fit you, tailors a resume to each posting, and fills the applications on your own Claude Code or Codex plan.
 </p>
 
 <p align="center">
@@ -22,35 +22,35 @@ Finds internships that fit you, tailors a resume to each posting,<br>and fills t
 
 <br><br><br>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/t-courtside-dark.svg?v=8"><img alt="Courtside. Calls the point a median 162 ms before the bounce." src="assets/t-courtside-light.svg?v=8" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/t-courtside-dark.svg?v=9"><img alt="Courtside. Calls the point a median 162 ms before the bounce." src="assets/t-courtside-light.svg?v=9" width="100%"></picture>
 
 <p align="center">
-A causal computer-vision ball tracker running at 119.9 fps, with no wrong calls on held-out table tennis.<br>Plus a latency study of 13,084 Polymarket tennis markets. Gator Quant Hacks 2026.
+A causal computer-vision ball tracker running at 119.9 fps, with no wrong calls on held-out table tennis. Plus a latency study of 13,084 Polymarket tennis markets. Gator Quant Hacks 2026.
 </p>
 
 <p align="center">
 <a href="https://github.com/OjasMishra32/computervision_quant_strategy">Learn more ›</a>&emsp;&emsp;<a href="https://drive.google.com/file/d/1ZMOhVQHA-lSsqmIboTntavcxZIRGt4Nr/view">Read the paper ›</a>
 </p>
 
-<p align="center"><img alt="Courtside: the tracker following the ball through a real tennis rally, with court lines fitted per frame." src="assets/photo-courtside.svg?v=8" width="62%"></p>
+<p align="center"><img alt="Courtside: the tracker following the ball through a real tennis rally, with court lines fitted per frame." src="assets/photo-courtside.svg?v=9" width="62%"></p>
 
 <br><br><br>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/t-dejaview-dark.svg?v=8"><img alt="Deja View. Photos of any space, turned into a world you walk into." src="assets/t-dejaview-light.svg?v=8" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/t-dejaview-dark.svg?v=9"><img alt="Deja View. Photos of any space, turned into a world you walk into." src="assets/t-dejaview-light.svg?v=9" width="100%"></picture>
 
 <p align="center">
-Meta Quest, the browser, or Roblox. A ~1M-Gaussian splat trained on UF HiPerGator in 11 minutes.<br>1st in AI/ML and 1st in DeepSpace at SwampHacks XII.
+Meta Quest, the browser, or Roblox. A ~1M-Gaussian splat trained on UF HiPerGator in 11 minutes. 1st in AI/ML and 1st in DeepSpace at SwampHacks XII.
 </p>
 
 <p align="center">
 <a href="https://deja-view.photo">Try it live ›</a>&emsp;&emsp;<a href="https://github.com/OjasMishra32/Deja-View">Learn more ›</a>
 </p>
 
-<img alt="Deja View: a room reconstructed as a walkable 3D scene in the browser." src="assets/photo-dejaview.svg?v=8" width="100%">
+<img alt="Deja View: a room reconstructed as a walkable 3D scene in the browser." src="assets/photo-dejaview.svg?v=9" width="100%">
 
 <br><br><br>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/t-experience-dark.svg?v=8"><img alt="Experience" src="assets/t-experience-light.svg?v=8" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/t-experience-dark.svg?v=9"><img alt="Experience" src="assets/t-experience-light.svg?v=9" width="100%"></picture>
 
 <p align="center">
 <b>Software Engineer, Northrop Grumman</b>
@@ -73,12 +73,12 @@ Meta Quest, the browser, or Roblox. A ~1M-Gaussian splat trained on UF HiPerGato
 </p>
 
 <p align="center">
-<b>Earlier</b><br>EV Bots, autonomous EV-charging robot &emsp;·&emsp; PteroLabs, UAV simulation &emsp;·&emsp; iPipeline, software
+<b>Earlier</b><br>AI Robotics Engineer Intern, EV Bots<br>UAV Simulation Intern, PteroLabs<br>Software Development Intern, iPipeline
 </p>
 
 <br><br><br>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/t-research-dark.svg?v=8"><img alt="Research" src="assets/t-research-light.svg?v=8" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/t-research-dark.svg?v=9"><img alt="Research" src="assets/t-research-light.svg?v=9" width="100%"></picture>
 
 <p align="center">
 <b>Constraint-Aware Discrete-Time PID Gain Optimization for Robotic Joint Control Under Actuator Saturation</b><br>First author. IEEE T-RO.&emsp;<a href="https://arxiv.org/abs/2601.18639v3">Read ›</a>
@@ -94,14 +94,14 @@ Meta Quest, the browser, or Roblox. A ~1M-Gaussian splat trained on UF HiPerGato
 
 <br><br><br>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/t-more-dark.svg?v=8"><img alt="Also built" src="assets/t-more-light.svg?v=8" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/t-more-dark.svg?v=9"><img alt="Also built" src="assets/t-more-light.svg?v=9" width="100%"></picture>
 
 <p align="center">
 <a href="https://github.com/OjasMishra32/fuse">FUSE ›</a>&emsp;&emsp;<a href="https://github.com/OjasMishra32/eyesight">Eyesight ›</a>&emsp;&emsp;<a href="https://github.com/OjasMishra32/Preventa">PreventaAI ›</a>&emsp;&emsp;<a href="https://github.com/OjasMishra32/twinly-api-examples">Twinly API ›</a>
 </p>
 
 <p align="center">
-Z Fellows &emsp;·&emsp; YC Startup School 2026 &emsp;·&emsp; 1st, YC Transpose &emsp;·&emsp; VEX Worlds 3x &emsp;·&emsp; TSA national finalist 2x
+Z Fellows&ensp;·&ensp;YC Startup School 2026&ensp;·&ensp;1st, YC Transpose<br>VEX Worlds 3x&ensp;·&ensp;TSA national finalist 2x
 </p>
 
 <br>

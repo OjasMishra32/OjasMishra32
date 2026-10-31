@@ -1,11 +1,14 @@
-"""Builds the profile SVGs in assets/ (dark + light).
+"""Builds the profile SVGs in assets/ (dark + light variants).
 
-Static text lives here; repo stars, followers, contributions and the
-language mix come from the GitHub API, so the cards stay current when the
-workflow reruns. Uses only the standard library.
+Every SVG is readable with animation turned off: text never starts hidden,
+and motion is limited to decorative shapes. Live numbers (stars,
+contributions) come from the GitHub API so the daily workflow keeps them
+current. Standard library only.
 """
 import json
+import math
 import os
+import random
 import urllib.request
 from xml.sax.saxutils import escape
 
@@ -17,30 +20,27 @@ SANS = "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, A
 MONO = "ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace"
 
 THEMES = {
-    "dark": dict(bg="#0d1117", card="#0d1117", border="#30363d", fg="#e6edf3", muted="#8b949e",
-                 faint="#21262d", accent="#58a6ff", accent2="#3fb950", ghost="#6e7681", key="#79c0ff"),
-    "light": dict(bg="#ffffff", card="#f6f8fa", border="#d0d7de", fg="#1f2328", muted="#59636e",
-                  faint="#e4e8ec", accent="#0969da", accent2="#1a7f37", ghost="#9198a1", key="#0550ae"),
+    "dark": dict(
+        bg0="#070b14", bg1="#0d1117", card="#0d1117", card2="#111826", border="#263042",
+        fg="#f0f6fc", muted="#9aa7b4", dim="#5b6675", grid="#1b2433",
+        blue="#4c9dff", violet="#a78bfa", green="#3fdc8a", amber="#f5b14c", pink="#f472b6",
+        glow=0.55,
+    ),
+    "light": dict(
+        bg0="#f3f6fb", bg1="#ffffff", card="#ffffff", card2="#f6f8fa", border="#d0d7de",
+        fg="#0f1720", muted="#4b5563", dim="#8b95a1", grid="#e3e8ef",
+        blue="#0a64d6", violet="#7c3aed", green="#0f8a4f", amber="#b45309", pink="#be185d",
+        glow=0.28,
+    ),
 }
-
-# Repos that are not his code (vendored copies, build output) stay out of the language mix.
-LANG_SKIP_REPOS = {"DeepSeek-Free-API", "twinner-web", "twinlypitchdeck", "OjasMishra32"}
-LANG_SKIP = {"HTML", "CSS", "SCSS", "Jupyter Notebook", "Shell", "Dockerfile", "Makefile"}
 
 QUERY = """
 query($login: String!) {
   user(login: $login) {
-    followers { totalCount }
     contributionsCollection { contributionCalendar { totalContributions } }
     repositories(ownerAffiliations: OWNER, privacy: PUBLIC, isFork: false, first: 100) {
       totalCount
-      nodes {
-        name stargazerCount
-        primaryLanguage { name color }
-        languages(first: 10, orderBy: {field: SIZE, direction: DESC}) {
-          edges { size node { name color } }
-        }
-      }
+      nodes { name stargazerCount primaryLanguage { name color } }
     }
   }
 }"""
@@ -69,267 +69,295 @@ def write(name, svg):
         f.write(svg)
 
 
-# ---------------------------------------------------------------- header
-TYPED = [
-    "founding engineer at Drift, robotics AI workspace",
-    "first-author robot control papers, CMU Xu Lab",
-    "co-founder and CEO of Twinly",
-    "quant research at AlgoGators",
-    "open source: ApplyTwin",
-]
+def svg_open(W, H, label, extra_style=""):
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" '
+            f'role="img" aria-label="{x(label)}">\n<style>{extra_style}\n'
+            '@media (prefers-reduced-motion: reduce) { * { animation: none !important; } }</style>\n')
 
 
-def step_response(clamp):
-    q = v = 0.0
-    dt, pts = 0.01, []
-    for i in range(1001):
-        pts.append((i * dt, q))
-        u = 6.0 * (1 - q) - 1.1 * v
-        if clamp:
-            u = max(-clamp, min(clamp, u))
-        v += u * dt
-        q += v * dt
-    return pts
+# ------------------------------------------------------------------ hero
+def hero(c):
+    W, H = 1200, 440
+    # Two-link arm on the right; shoulder and elbow sweep, the trail is the
+    # end effector's path, precomputed so the static frame still shows it.
+    bx, by, l1, l2 = 965, 368, 128, 104
+    def fk(a1, a2):
+        ex, ey = bx + l1 * math.cos(math.radians(a1)), by - l1 * math.sin(math.radians(a1))
+        return ex, ey, ex + l2 * math.cos(math.radians(a1 + a2)), ey - l2 * math.sin(math.radians(a1 + a2))
+    trail = []
+    for k in range(121):
+        t = k / 120 * 2 * math.pi
+        a1 = 70 + 22 * math.sin(t)
+        a2 = -55 + 30 * math.sin(t + 1.2)
+        trail.append(fk(a1, a2)[2:])
+    trail_d = "M" + " L".join(f"{px:.1f},{py:.1f}" for px, py in trail) + "Z"
+    # keyframes for the arm, same motion as the trail
+    n = 24
+    a1s = [70 + 22 * math.sin(k / n * 2 * math.pi) for k in range(n + 1)]
+    a2s = [-55 + 30 * math.sin(k / n * 2 * math.pi + 1.2) for k in range(n + 1)]
+    sh = ";".join(f"{-a:.1f} {bx} {by}" for a in a1s)
+    el = ";".join(f"{-a:.1f} {bx + l1} {by}" for a in a2s)
+    a1, a2 = a1s[0], a2s[0]
 
+    stars = "".join(
+        f'<circle cx="{random.Random(i).uniform(20, W - 20):.0f}" cy="{random.Random(i * 7).uniform(20, H - 20):.0f}" '
+        f'r="{random.Random(i * 3).uniform(.6, 1.6):.1f}" class="tw" style="animation-delay:{random.Random(i * 5).uniform(0, 6):.1f}s"/>'
+        for i in range(70))
 
-def header(c):
-    W, H = 1200, 320
-    X0, X1, Y0, Y1 = 760, 1136, 70, 238
-    ym = lambda q: Y1 - q / 1.35 * (Y1 - Y0)
-    xm = lambda t: X0 + t / 10 * (X1 - X0)
-    path = lambda pts: "M" + " L".join(f"{xm(t):.1f},{ym(q):.1f}" for t, q in pts[::6])
+    grid = "".join(f'<line x1="{gx}" y1="0" x2="{gx}" y2="{H}"/>' for gx in range(0, W + 1, 60)) + \
+           "".join(f'<line x1="0" y1="{gy}" x2="{W}" y2="{gy}"/>' for gy in range(20, H + 1, 60))
 
-    dots = "".join(f'<circle cx="{gx}" cy="{gy}" r="1.4"/>'
-                   for gx in range(X0, X1 + 1, 47) for gy in range(Y0, Y1 + 1, 42))
-
-    # Typing line: each phrase gets a 4 s slot; textLength pins the width so
-    # the clip and cursor line up with the glyphs in any monospace font.
-    cw, slot, tx, ty, fs = 12.0, 4.0, 66, 246, 20
-    total = slot * len(TYPED)
-    lines = []
-    for i, s in enumerate(TYPED):
-        n, w = len(s), len(s) * cw
-        start = i * slot
-        times, widths = [0.0], [0.0]
-        type_d, hold, erase_d = 1.6, 1.7, 0.45
-        for k in range(1, n + 1):
-            times.append(start + type_d * k / n); widths.append(k * cw)
-        times.append(start + type_d + hold); widths.append(w)
-        for k in range(n - 1, -1, -1):
-            times.append(start + type_d + hold + erase_d * (n - k) / n); widths.append(k * cw)
-        if start > 0:
-            times.insert(1, start); widths.insert(1, 0.0)
-        times.append(total); widths.append(0.0)
-        kt = ";".join(f"{t / total:.5f}" for t in times)
-        vals = ";".join(f"{v:.1f}" for v in widths)
-        xs = ";".join(f"{tx + v:.1f}" for v in widths)
-        vis = f"{start / total:.5f};{(start + slot) / total:.5f}"
-        # only one phrase is ever visible, even where a viewer ignores the animated clip (or all animation)
-        show, showkt = ("1;0", f"0;{slot / total:.5f}") if i == 0 else ("0;1;0", f"0;{vis}")
-        lines.append(f'''
-    <clipPath id="c{i}"><rect x="{tx}" y="{ty - 22}" height="30" width="0">
-      <animate attributeName="width" values="{vals}" keyTimes="{kt}" dur="{total}s" calcMode="discrete" repeatCount="indefinite"/>
-    </rect></clipPath>
-    <text x="{tx}" y="{ty}" clip-path="url(#c{i})" opacity="{1 if i == 0 else 0}" textLength="{w:.0f}" lengthAdjust="spacingAndGlyphs" font-family="{MONO}" font-size="{fs}" fill="{c['fg']}">{x(s)}
-      <animate attributeName="opacity" values="{show}" keyTimes="{showkt}" dur="{total}s" calcMode="discrete" repeatCount="indefinite"/></text>
-    <rect y="{ty - 18}" width="10" height="23" fill="{c['accent']}" opacity="0">
-      <animate attributeName="x" values="{xs}" keyTimes="{kt}" dur="{total}s" calcMode="discrete" repeatCount="indefinite"/>
-      <animate attributeName="opacity" values="0;1;0" keyTimes="0;{vis}" dur="{total}s" calcMode="discrete" repeatCount="indefinite"/>
-    </rect>''')
-
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-label="Ojasva Mishra. Computer Engineering and Finance at the University of Florida.">
-  <style>
-    .draw {{ stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 2.6s cubic-bezier(.3,.7,.2,1) .3s forwards; }}
-    .ghost {{ stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 2.6s ease-out .1s forwards; }}
-    @keyframes draw {{ to {{ stroke-dashoffset: 0; }} }}
-    @media (prefers-reduced-motion: reduce) {{ .draw, .ghost {{ animation: none; stroke-dashoffset: 0; }} }}
-  </style>
-  <rect x="1" y="1" width="{W - 2}" height="{H - 2}" rx="16" fill="{c['card']}" stroke="{c['border']}" stroke-width="2"/>
-  <g>
-    <text x="62" y="120" fill="{c['fg']}" font-family="{SANS}" font-size="64" font-weight="700" letter-spacing="-1.5">Ojasva Mishra</text>
-    <text x="65" y="168" fill="{c['muted']}" font-family="{SANS}" font-size="25">Computer Engineering + Finance, University of Florida</text>
-    <text x="66" y="206" fill="{c['accent']}" font-family="{MONO}" font-size="17">robotics / AI systems / quant research</text>
-    <text x="40" y="246" fill="{c['accent2']}" font-family="{MONO}" font-size="20">&gt;</text>
+    style = f"""
+.blob {{ animation: drift 18s ease-in-out infinite alternate; transform-origin: center; }}
+.b2 {{ animation-duration: 23s; animation-direction: alternate-reverse; }}
+.b3 {{ animation-duration: 29s; }}
+@keyframes drift {{ 0% {{ transform: translate(0,0) scale(1); }} 50% {{ transform: translate(60px,-30px) scale(1.15); }} 100% {{ transform: translate(-50px,25px) scale(.95); }} }}
+.tw {{ fill: {c['fg']}; opacity: .25; animation: tw 6s ease-in-out infinite; }}
+@keyframes tw {{ 50% {{ opacity: .8; }} }}
+.trail {{ stroke-dasharray: 10 14; animation: dash 3s linear infinite; }}
+@keyframes dash {{ to {{ stroke-dashoffset: -48; }} }}
+.sweep {{ animation: sweep 6s ease-in-out infinite; }}
+@keyframes sweep {{ 0%,100% {{ opacity: .15; }} 50% {{ opacity: .5; }} }}
+"""
+    return svg_open(W, H, "Ojasva Mishra. Software Engineer at Northrop Grumman. Computer Engineering and Finance at the University of Florida. Robotics and AI.", style) + f'''
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{c['bg0']}"/><stop offset="1" stop-color="{c['bg1']}"/></linearGradient>
+  <linearGradient id="name" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="{c['fg']}"/><stop offset=".55" stop-color="{c['fg']}"/><stop offset="1" stop-color="{c['blue']}"/></linearGradient>
+  <linearGradient id="rule" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="{c['blue']}"/><stop offset=".5" stop-color="{c['violet']}"/><stop offset="1" stop-color="{c['green']}"/></linearGradient>
+  <filter id="blur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="60"/></filter>
+  <clipPath id="frame"><rect width="{W}" height="{H}" rx="22"/></clipPath>
+  <linearGradient id="fadeR" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="{c['bg0']}" stop-opacity=".95"/><stop offset=".55" stop-color="{c['bg0']}" stop-opacity=".6"/><stop offset="1" stop-color="{c['bg0']}" stop-opacity="0"/></linearGradient>
+</defs>
+<g clip-path="url(#frame)">
+  <rect width="{W}" height="{H}" fill="url(#bg)"/>
+  <g filter="url(#blur)" opacity="{c['glow']}">
+    <circle class="blob" cx="980" cy="120" r="170" fill="{c['blue']}"/>
+    <circle class="blob b2" cx="760" cy="380" r="150" fill="{c['violet']}"/>
+    <circle class="blob b3" cx="1140" cy="400" r="120" fill="{c['green']}"/>
   </g>
-  {"".join(lines)}
-  <g fill="{c['faint']}">{dots}</g>
+  <g stroke="{c['grid']}" stroke-width="1" opacity=".7">{grid}</g>
+  <g>{stars}</g>
+  <rect width="760" height="{H}" fill="url(#fadeR)"/>
+
   <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <line x1="{X0}" y1="{ym(1):.1f}" x2="{X1}" y2="{ym(1):.1f}" stroke="{c['ghost']}" stroke-width="1.5" stroke-dasharray="5 7"/>
-    <path class="ghost" pathLength="1" d="{path(step_response(None))}" stroke="{c['ghost']}" stroke-width="2" opacity=".55"/>
-    <path class="draw" pathLength="1" d="{path(step_response(1.6))}" stroke="{c['accent']}" stroke-width="3.5"/>
+    <circle class="sweep" cx="{bx}" cy="{by}" r="{l1 + l2}" stroke="{c['muted']}" stroke-width="1.5" stroke-dasharray="3 9"/>
+    <path class="trail" d="{trail_d}" stroke="{c['green']}" stroke-width="2.5" opacity=".9"/>
   </g>
-  <g font-family="{MONO}" font-size="14" fill="{c['muted']}">
-    <text x="{X0}" y="{Y1 + 36}">joint step response, torque-limited</text>
-    <text x="{X1}" y="{ym(1) - 12:.1f}" text-anchor="end">q_ref</text>
+  <g>
+    <rect x="{bx - 46}" y="{by + 6}" width="92" height="22" rx="6" fill="{c['card2']}" stroke="{c['border']}" stroke-width="2"/>
+    <g transform="rotate({-a1:.1f} {bx} {by})">
+      <animateTransform attributeName="transform" type="rotate" values="{sh}" dur="8s" repeatCount="indefinite"/>
+      <line x1="{bx}" y1="{by}" x2="{bx + l1}" y2="{by}" stroke="{c['fg']}" stroke-width="16" stroke-linecap="round"/>
+      <g transform="rotate({-a2:.1f} {bx + l1} {by})">
+        <animateTransform attributeName="transform" type="rotate" values="{el}" dur="8s" repeatCount="indefinite"/>
+        <line x1="{bx + l1}" y1="{by}" x2="{bx + l1 + l2}" y2="{by}" stroke="{c['blue']}" stroke-width="12" stroke-linecap="round"/>
+        <path d="M{bx + l1 + l2 + 4},{by - 14} h14 M{bx + l1 + l2 + 4},{by + 14} h14 M{bx + l1 + l2 + 4},{by - 14} v28" stroke="{c['blue']}" stroke-width="5" fill="none" stroke-linecap="round"/>
+        <circle cx="{bx + l1}" cy="{by}" r="11" fill="{c['bg1']}" stroke="{c['fg']}" stroke-width="4"/>
+      </g>
+      <circle cx="{bx}" cy="{by}" r="14" fill="{c['bg1']}" stroke="{c['fg']}" stroke-width="4"/>
+    </g>
   </g>
+
+  <text x="70" y="178" font-family="{SANS}" font-size="92" font-weight="800" letter-spacing="-3" fill="url(#name)">Ojasva Mishra</text>
+  <rect x="74" y="206" width="132" height="5" rx="2.5" fill="url(#rule)"/>
+  <text x="72" y="262" font-family="{SANS}" font-size="34" font-weight="600" fill="{c['fg']}">Software Engineer at Northrop Grumman</text>
+  <text x="72" y="308" font-family="{SANS}" font-size="27" fill="{c['muted']}">Computer Engineering + Finance at UF</text>
+  <text x="72" y="368" font-family="{MONO}" font-size="21" fill="{c['muted']}"><tspan fill="{c['blue']}">robotics</tspan>  /  <tspan fill="{c['violet']}">AI systems</tspan>  /  <tspan fill="{c['green']}">quant research</tspan></text>
+</g>
+<rect x="1" y="1" width="{W - 2}" height="{H - 2}" rx="22" fill="none" stroke="{c['border']}" stroke-width="2"/>
 </svg>
 '''
 
 
-# ---------------------------------------------------------------- about card
-ARM = r"""
- ██████╗ ███╗   ███╗
-██╔═══██╗████╗ ████║
-██║   ██║██╔████╔██║
-██║   ██║██║╚██╔╝██║
-╚██████╔╝██║ ╚═╝ ██║
- ╚═════╝ ╚═╝     ╚═╝
-""".strip("\n").split("\n")
-
-FACTS = [
-    ("os", "University of Florida, B.S. CompE + Finance, '29"),
-    ("host", "Drift (Antler), founding AI/software engineer"),
-    ("kernel", "CMU Xu Lab, 3 first-author robot control papers"),
-    ("shell", "Twinly, co-founder and CEO, 1,000+ users"),
-    ("quant", "AlgoGators, quant research, ~$500K AUM fund"),
-    ("lang.code", "Python, C++, Rust, Swift, TypeScript, C#"),
-    ("lang.human", "English, Hindi, German"),
-    ("robotics", "ROS2, MuJoCo, Isaac Sim, Gazebo, PX4"),
-    ("ml", "PyTorch, OpenCV, VLMs, LLM agents, CoreML"),
+# ------------------------------------------------------------------ now
+NOW = [
+    ("Northrop Grumman", "Software Engineer", "blue"),
+    ("Drift", "Founding AI/software engineer", "green"),
+    ("CMU Xu Lab", "Robotics research, 3 first-author papers", "violet"),
+    ("Twinly", "Co-founder and CEO", "amber"),
 ]
 
 
-def about(c, u):
-    W, H = 1200, 470
-    repos = u["repositories"]
-    stars = sum(n["stargazerCount"] for n in repos["nodes"])
+def now(c):
+    W, H = 1200, 360
+    tw, th, gap = 584, 164, 32
+    tiles = []
+    for i, (org, role, col) in enumerate(NOW):
+        tx = (i % 2) * (tw + gap)
+        ty = (i // 2) * (th + gap)
+        hl = i == 0
+        tiles.append(f'''
+  <g transform="translate({tx},{ty})">
+    <rect x="1" y="1" width="{tw - 2}" height="{th - 2}" rx="18" fill="{c['card2'] if not hl else c['card']}" stroke="{c[col] if hl else c['border']}" stroke-width="{3 if hl else 2}"/>
+    <rect x="30" y="38" width="8" height="88" rx="4" fill="{c[col]}"/>
+    <text x="62" y="80" font-family="{SANS}" font-size="44" font-weight="750" fill="{c['fg']}" letter-spacing="-1">{x(org)}</text>
+    <text x="63" y="122" font-family="{SANS}" font-size="27" fill="{c['muted']}">{x(role)}</text>
+  </g>''')
+    return svg_open(W, H, "Now: " + "; ".join(f"{o}, {r}" for o, r, _ in NOW)) + "".join(tiles) + "\n</svg>\n"
+
+
+# ------------------------------------------------------------------ numbers
+def numbers(c, u):
+    W, H = 1200, 230
+    stars = {n["name"]: n["stargazerCount"] for n in u["repositories"]["nodes"]}
     contrib = u["contributionsCollection"]["contributionCalendar"]["totalContributions"]
-    # Language mix by repo count (primary language), so one large vendored
-    # file cannot dominate the bar.
-    langs = {}
-    for n in repos["nodes"]:
-        lang = n["primaryLanguage"]
-        if n["name"] in LANG_SKIP_REPOS or not lang or lang["name"] in LANG_SKIP:
-            continue
-        langs.setdefault(lang["name"], [0, lang["color"] or c["ghost"]])[0] += 1
-    top = sorted(langs.items(), key=lambda kv: -kv[1][0])[:6]
-    tot = sum(v[0] for _, v in top) or 1
-
-    art = "".join(f'<tspan x="60" dy="{0 if i == 0 else 27}">{x(l)}</tspan>' for i, l in enumerate(ARM))
-    kx, vx, y0, lh = 420, 560, 74, 27
-    rows = []
-    rows.append(f'<text x="{kx}" y="{y0}" font-weight="700"><tspan fill="{c["accent2"]}">ojasva</tspan><tspan fill="{c["fg"]}">@</tspan><tspan fill="{c["accent"]}">mishra</tspan></text>')
-    rows.append(f'<line x1="{kx}" y1="{y0 + 12}" x2="{W - 50}" y2="{y0 + 12}" stroke="{c["border"]}"/>')
-    for i, (k, v) in enumerate(FACTS):
-        y = y0 + 40 + i * lh
-        rows.append(f'<text x="{kx}" y="{y}" fill="{c["key"]}">{x(k)}</text><text x="{vx}" y="{y}" fill="{c["fg"]}">{x(v)}</text>')
-
-    sy = y0 + 40 + len(FACTS) * lh + 10
-    stats = [("repos", repos["totalCount"]), ("stars", stars), ("followers", u["followers"]["totalCount"]), ("contributions (1y)", contrib)]
-    sx = kx
-    srow = []
-    for k, v in stats:
-        srow.append(f'<text x="{sx}" y="{sy}"><tspan fill="{c["muted"]}">{x(k)} </tspan><tspan fill="{c["fg"]}" font-weight="700">{v:,}</tspan></text>')
-        sx += 34 + int(len(f"{k} {v:,}") * 10.2)
-
-    bar, bx, bw, by = [], kx, W - 50 - kx, sy + 22
-    for name, (size, color) in top:
-        w = bw * size / tot
-        bar.append(f'<rect x="{bx:.1f}" y="{by}" width="{max(w - 2, 1):.1f}" height="8" rx="2" fill="{color}"/>')
-        bx += w
-    legend, lx = [], kx
-    for name, (size, color) in top:
-        legend.append(f'<circle cx="{lx + 5}" cy="{by + 30}" r="5" fill="{color}"/><text x="{lx + 15}" y="{by + 35}" fill="{c["muted"]}" font-size="14">{x(name)}</text>')
-        lx += 30 + int(len(name) * 8.6)
-
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-label="About Ojasva Mishra, with live GitHub stats.">
-  <style>
-    .blink {{ animation: blink 1.1s steps(1) infinite; }}
-    @keyframes blink {{ 50% {{ opacity: 0; }} }}
-  </style>
-  <rect x="1" y="1" width="{W - 2}" height="{H - 2}" rx="16" fill="{c['card']}" stroke="{c['border']}" stroke-width="2"/>
-  <circle cx="30" cy="26" r="6" fill="#ff5f57"/><circle cx="50" cy="26" r="6" fill="#febc2e"/><circle cx="70" cy="26" r="6" fill="#28c840"/>
-  <text x="{W / 2}" y="31" text-anchor="middle" font-family="{MONO}" font-size="14" fill="{c['muted']}">ojasva@mishra: ~</text>
-  <text y="165" font-family="{MONO}" font-size="24" fill="{c['accent']}" xml:space="preserve">{art}</text>
-  <text x="60" y="360" font-family="{MONO}" font-size="15" fill="{c['muted']}">github.com/OjasMishra32</text>
-  <g font-family="{MONO}" font-size="17">
-    {"".join(rows)}
-    {"".join(srow)}
-    {"".join(bar)}{"".join(legend)}
-  </g>
-  <rect class="blink" x="{kx}" y="{H - 40}" width="11" height="22" fill="{c['accent2']}"/>
+    items = [
+        ("3", "first-author papers", "violet"),
+        ("1,000+", "Twinly users", "amber"),
+        (f"{stars.get('applytwin', 0)}", "ApplyTwin stars", "green"),
+        (f"{contrib:,}", "contributions this year", "blue"),
+    ]
+    cw = W / 4
+    cells = []
+    for i, (num, label, col) in enumerate(items):
+        cx = cw * i + cw / 2
+        cells.append(f'''
+  <text x="{cx:.0f}" y="118" text-anchor="middle" font-family="{SANS}" font-size="74" font-weight="800" letter-spacing="-2" fill="{c[col]}">{x(num)}</text>
+  <text x="{cx:.0f}" y="170" text-anchor="middle" font-family="{SANS}" font-size="25" fill="{c['muted']}">{x(label)}</text>''')
+        if i:
+            cells.append(f'<line x1="{cw * i:.0f}" y1="52" x2="{cw * i:.0f}" y2="180" stroke="{c["border"]}" stroke-width="2"/>')
+    return svg_open(W, H, "; ".join(f"{n} {l}" for n, l, _ in items)) + f'''
+<rect x="1" y="1" width="{W - 2}" height="{H - 2}" rx="20" fill="{c['card2']}" stroke="{c['border']}" stroke-width="2"/>
+{"".join(cells)}
 </svg>
 '''
 
 
-# ---------------------------------------------------------------- project cards
-PROJECTS = [
-    dict(repo="applytwin", title="ApplyTwin", wide=True,
-         lines=["Free, open-source job search on autopilot. Finds internships",
-                "that fit, tailors a resume to each posting, and fills the",
-                "applications, all on your own Claude Code or Codex plan."],
-         tag="flagship / open source"),
-    dict(repo="computervision_quant_strategy", title="Courtside",
-         lines=["CV ball tracker calls the point a median 162 ms", "before the bounce at 119.9 fps; latency study",
-                "of 13,084 Polymarket tennis markets."],
-         tag="Gator Quant Hacks 2026"),
-    dict(repo="Deja-View", title="Déjà View",
-         lines=["Photos or video of any space into a walkable", "3D world on Quest, web, or Roblox. ~1M-Gaussian",
-                "splat trained on HiPerGator in 11 min."],
-         tag="SwampHacks XII, 1st in 2 tracks"),
-    dict(repo="fuse", title="FUSE",
-         lines=["Native iOS app: fold the iPhone Duo to fuse", "both screens into one AI result.", ""],
-         tag="Bitrig Hacks, Y Combinator"),
-    dict(repo="eyesight", title="Eyesight",
-         lines=["LiDAR plus on-device CoreML obstacle", "detection on iPhone.", ""],
-         tag="iOS / CoreML"),
-    dict(repo="Preventa", title="PreventaAI",
-         lines=["iOS app on the App Store, rated 5.0.", "SwiftUI and Firebase.", ""],
-         tag="App Store"),
-    dict(repo="twinly-api-examples", title="Twinly API examples",
-         lines=["Starter projects for the Twinly API: iMessage", "bots, calls in your voice, voice notes, tasks.", ""],
-         tag="Twinly"),
-]
-
-STAR = "M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"
-REPO_ICON = "M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.714 1.7.75.75 0 1 1-1.072 1.05A2.495 2.495 0 0 1 2 11.5Zm10.5-1h-8a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8ZM5 12.25a.25.25 0 0 1 .25-.25h3.5a.25.25 0 0 1 .25.25v3.25a.25.25 0 0 1-.4.2l-1.45-1.087a.249.249 0 0 0-.3 0L5.4 15.7a.25.25 0 0 1-.4-.2Z"
+# ------------------------------------------------------------------ project cards
+def wrap_text(lines, x0, y0, size, lh, fill, weight=400):
+    return "".join(f'<text x="{x0}" y="{y0 + i * lh}" font-family="{SANS}" font-size="{size}" font-weight="{weight}" fill="{fill}">{x(l)}</text>'
+                   for i, l in enumerate(lines))
 
 
-def card(c, p, info):
-    wide = p.get("wide")
-    W, H = (1200, 220) if wide else (590, 200)
-    fs = 21 if wide else 17
-    lh = 30 if wide else 25
-    lang = info.get("primaryLanguage") or {}
-    stars = info.get("stargazerCount", 0)
-    body = "".join(f'<text x="30" y="{(96 if wide else 88) + i * lh}">{x(l)}</text>' for i, l in enumerate(p["lines"]) if l)
-    foot_y = H - 26
-    lang_svg = ""
-    fx = 30
+def project(c, title, tag, lines, foot, visual, accent, label):
+    W, H = 1200, 430
+    style = """
+.flow { stroke-dasharray: 8 10; animation: flow 1.6s linear infinite; }
+@keyframes flow { to { stroke-dashoffset: -36; } }
+.pulse { animation: pulse 3s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.12); } }
+.shim { animation: shim 4s ease-in-out infinite; }
+@keyframes shim { 0%,100% { opacity: .35; } 50% { opacity: 1; } }
+"""
+    return svg_open(W, H, label, style) + f'''
+<defs>
+  <linearGradient id="pbg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{c['card2']}"/><stop offset="1" stop-color="{c['card']}"/></linearGradient>
+  <clipPath id="pf"><rect width="{W}" height="{H}" rx="22"/></clipPath>
+</defs>
+<g clip-path="url(#pf)">
+  <rect width="{W}" height="{H}" fill="url(#pbg)"/>
+  <rect x="0" y="0" width="{W}" height="6" fill="{c[accent]}"/>
+  <text x="64" y="92" font-family="{MONO}" font-size="22" fill="{c[accent]}">{x(tag)}</text>
+  <text x="62" y="160" font-family="{SANS}" font-size="62" font-weight="800" letter-spacing="-2" fill="{c['fg']}">{x(title)}</text>
+  {wrap_text(lines, 64, 218, 28, 40, c['fg'])}
+  <text x="64" y="{H - 40}" font-family="{MONO}" font-size="21" fill="{c['muted']}">{foot}</text>
+  <g transform="translate(760,64)">{visual}</g>
+</g>
+<rect x="1" y="1" width="{W - 2}" height="{H - 2}" rx="22" fill="none" stroke="{c['border']}" stroke-width="2"/>
+</svg>
+'''
+
+
+def vis_applytwin(c):
+    # scan -> tailor -> apply, a packet moving along the pipe
+    nodes = [(60, 60, "scan", "blue"), (200, 150, "tailor", "violet"), (340, 240, "apply", "green")]
+    d = "M60,60 C140,60 120,150 200,150 S260,240 340,240"
+    out = [f'<path d="{d}" fill="none" stroke="{c["border"]}" stroke-width="6" stroke-linecap="round"/>',
+           f'<path class="flow" d="{d}" fill="none" stroke="{c["green"]}" stroke-width="3" stroke-linecap="round"/>']
+    for nx, ny, lab, col in nodes:
+        out.append(f'<circle cx="{nx}" cy="{ny}" r="30" fill="{c["card"]}" stroke="{c[col]}" stroke-width="4"/>'
+                   f'<circle class="pulse" cx="{nx}" cy="{ny}" r="10" fill="{c[col]}"/>'
+                   f'<text x="{nx + (44 if lab != "apply" else -44)}" y="{ny + 8}" text-anchor="{"start" if lab != "apply" else "end"}" font-family="{MONO}" font-size="24" fill="{c["fg"]}">{lab}</text>')
+    out.append(f'<circle r="8" fill="{c["fg"]}"><animateMotion dur="3.2s" repeatCount="indefinite" path="{d}"/></circle>')
+    return "".join(out)
+
+
+def vis_courtside(c):
+    # ball arc with the call made before the bounce
+    d = "M20,40 Q150,-30 260,200 Q320,90 400,120"
+    table = f'<line x1="0" y1="206" x2="400" y2="206" stroke="{c["muted"]}" stroke-width="5" stroke-linecap="round"/>' \
+            f'<line x1="200" y1="206" x2="200" y2="170" stroke="{c["muted"]}" stroke-width="3"/>'
+    call_x = 218
+    return (table +
+            f'<path d="{d}" fill="none" stroke="{c["border"]}" stroke-width="3" stroke-dasharray="4 8"/>'
+            f'<line x1="{call_x}" y1="40" x2="{call_x}" y2="206" stroke="{c["amber"]}" stroke-width="3" stroke-dasharray="6 6"/>'
+            f'<text x="{call_x - 12}" y="30" text-anchor="end" font-family="{MONO}" font-size="24" fill="{c["amber"]}">call</text>'
+            f'<text x="{call_x + 12}" y="30" font-family="{MONO}" font-size="24" fill="{c["fg"]}">-162 ms</text>'
+            f'<circle cx="260" cy="206" r="7" fill="none" stroke="{c["green"]}" stroke-width="3"/>'
+            f'<text x="260" y="246" text-anchor="middle" font-family="{MONO}" font-size="20" fill="{c["muted"]}">bounce</text>'
+            f'<circle r="11" fill="{c["amber"]}"><animateMotion dur="2.4s" repeatCount="indefinite" path="{d}"/></circle>'
+            f'<text x="0" y="296" font-family="{MONO}" font-size="20" fill="{c["muted"]}">119.9 fps, none wrong</text>')
+
+
+def vis_dejaview(c):
+    # isometric room drawn as a gaussian-splat point cloud
+    rnd = random.Random(7)
+    ox, oy, s = 200, 150, 125
+    iso = lambda X, Y, Z: (ox + (X - Y) * s * 0.866, oy + (X + Y) * s * 0.5 - Z * s)
+    pts = [("floor", rnd.random(), rnd.random(), 0) for _ in range(260)]
+    pts += [("wallL", 0, rnd.random(), rnd.random() * 1.05) for _ in range(150)]
+    pts += [("wallR", rnd.random(), 0, rnd.random() * 1.05) for _ in range(150)]
+    # a box on the floor so it reads as a room with something in it
+    for _ in range(70):
+        f = rnd.choice(["t", "l", "r"])
+        a, b = rnd.random(), rnd.random()
+        X, Y, Z = {"t": (.45 + a * .3, .45 + b * .3, .3), "l": (.45, .45 + a * .3, b * .3), "r": (.45 + a * .3, .45, b * .3)}[f]
+        pts.append(("box", X + .3, Y + .3, Z) if False else ("box", X, Y, Z))
+    cols = {"floor": c["violet"], "wallL": c["blue"], "wallR": c["pink"], "box": c["amber"]}
+    out = []
+    corners = [iso(0, 0, 1.05), iso(0, 0, 0), iso(1, 0, 0), iso(1, 1, 0), iso(0, 1, 0), iso(0, 0, 0)]
+    out.append(f'<path d="M{iso(0,1,1.05)[0]:.0f},{iso(0,1,1.05)[1]:.0f} L{iso(0,0,1.05)[0]:.0f},{iso(0,0,1.05)[1]:.0f} L{iso(1,0,1.05)[0]:.0f},{iso(1,0,1.05)[1]:.0f} M{iso(0,0,1.05)[0]:.0f},{iso(0,0,1.05)[1]:.0f} L{iso(0,0,0)[0]:.0f},{iso(0,0,0)[1]:.0f} M{iso(0,1,0)[0]:.0f},{iso(0,1,0)[1]:.0f} L{iso(0,0,0)[0]:.0f},{iso(0,0,0)[1]:.0f} L{iso(1,0,0)[0]:.0f},{iso(1,0,0)[1]:.0f}" fill="none" stroke="{c["dim"]}" stroke-width="1.5" stroke-dasharray="4 6"/>')
+    for i, (f, X, Y, Z) in enumerate(pts):
+        px, py = iso(X, Y, Z)
+        out.append(f'<circle class="shim" cx="{px:.1f}" cy="{py:.1f}" r="{rnd.uniform(1.4, 3.4):.1f}" fill="{cols[f]}" '
+                   f'opacity=".85" style="animation-delay:{rnd.uniform(0, 4):.1f}s"/>')
+    # camera frustum
+    cx, cy = 360, 20
+    out.append(f'<path d="M{cx},{cy} L{cx - 70},{cy + 40} M{cx},{cy} L{cx - 50},{cy + 70}" stroke="{c["fg"]}" stroke-width="2" opacity=".6"/>'
+               f'<rect x="{cx - 4}" y="{cy - 14}" width="34" height="24" rx="5" fill="{c["fg"]}"/>')
+    out.append(f'<text x="0" y="296" font-family="{MONO}" font-size="20" fill="{c["muted"]}">~1M Gaussians, 11 min</text>')
+    return "".join(out)
+
+
+def lang_foot(c, info):
+    lang = (info or {}).get("primaryLanguage") or {}
+    stars = (info or {}).get("stargazerCount", 0)
+    parts = []
     if lang:
-        lang_svg = f'<circle cx="{fx + 7}" cy="{foot_y - 5}" r="7" fill="{lang.get("color") or c["ghost"]}"/><text x="{fx + 22}" y="{foot_y}">{x(lang["name"])}</text>'
-        fx += 40 + len(lang["name"]) * 9
-    star_svg = f'<g transform="translate({fx},{foot_y - 14}) scale(1.05)" fill="{c["muted"]}"><path d="{STAR}"/></g><text x="{fx + 24}" y="{foot_y}">{stars}</text>'
-    flow = ""
-    if wide:
-        steps = [("scan", "roles that fit you"), ("tailor", "a resume per posting"), ("apply", "fill, submit, log")]
-        fy = 92
-        for i, (k, v) in enumerate(steps):
-            yy = fy + i * 34
-            flow += (f'<circle cx="822" cy="{yy - 6}" r="5" fill="{c["accent2"]}"/>'
-                     + (f'<line x1="822" y1="{yy}" x2="822" y2="{yy + 22}" stroke="{c["border"]}" stroke-width="2"/>' if i < 2 else "")
-                     + f'<text x="840" y="{yy}" font-family="{MONO}" font-size="17"><tspan fill="{c["key"]}">{k}</tspan><tspan fill="{c["muted"]}">  {x(v)}</tspan></text>')
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-label="{x(p['title'])}: {x(' '.join(p['lines']))}">
-  <rect x="1" y="1" width="{W - 2}" height="{H - 2}" rx="14" fill="{c['card']}" stroke="{c['border']}" stroke-width="2"/>
-  <g transform="translate(30,{24 if wide else 22}) scale({1.5 if wide else 1.3})" fill="{c['muted']}"><path d="{REPO_ICON}"/></g>
-  <text x="{70 if wide else 62}" y="{48 if wide else 42}" font-family="{SANS}" font-size="{30 if wide else 24}" font-weight="700" fill="{c['accent']}">{x(p['title'])}</text>
-  <text x="{W - 30}" y="{48 if wide else 42}" text-anchor="end" font-family="{MONO}" font-size="{16 if wide else 14}" fill="{c['accent2']}">{x(p['tag'])}</text>
-  <g font-family="{SANS}" font-size="{fs}" fill="{c['fg']}">{body}</g>
-  <g font-family="{SANS}" font-size="{17 if wide else 15}" fill="{c['muted']}">{lang_svg}{star_svg}</g>
-  {flow}
-</svg>
-'''
+        parts.append(f'<tspan fill="{lang.get("color") or c["muted"]}">●</tspan> {x(lang["name"])}')
+    parts.append(f"★ {stars}")
+    return "    ".join(parts)
 
 
 def main():
     os.makedirs(OUT, exist_ok=True)
+    for f in os.listdir(OUT):
+        if f.endswith(".svg"):
+            os.remove(os.path.join(OUT, f))
     u = fetch()
-    by_name = {n["name"]: n for n in u["repositories"]["nodes"]}
-    for theme, c in THEMES.items():
-        write(f"header-{theme}.svg", header(c))
-        write(f"about-{theme}.svg", about(c, u))
-        for p in PROJECTS:
-            write(f"card-{p['repo'].lower()}-{theme}.svg", card(c, p, by_name.get(p["repo"], {})))
+    by = {n["name"]: n for n in u["repositories"]["nodes"]}
+    for t, c in THEMES.items():
+        write(f"hero-{t}.svg", hero(c))
+        write(f"now-{t}.svg", now(c))
+        write(f"numbers-{t}.svg", numbers(c, u))
+        write(f"applytwin-{t}.svg", project(
+            c, "ApplyTwin", "flagship / open source",
+            ["Free job search on autopilot. Finds", "internships that fit, tailors a resume",
+             "per posting, and fills the applications", "on your own Claude Code or Codex plan."],
+            lang_foot(c, by.get("applytwin")), vis_applytwin(c), "green",
+            "ApplyTwin: free, open-source job search on autopilot. Finds internships, tailors a resume per posting, fills applications on your own Claude Code or Codex plan."))
+        write(f"courtside-{t}.svg", project(
+            c, "Courtside", "Gator Quant Hacks 2026",
+            ["A computer-vision ball tracker that calls", "the point a median 162 ms before the",
+             "bounce, and a latency study of 13,084", "Polymarket tennis markets."],
+            lang_foot(c, by.get("computervision_quant_strategy")), vis_courtside(c), "amber",
+            "Courtside: CV ball tracker that calls the point a median 162 ms before the bounce at 119.9 fps; latency study of 13,084 Polymarket markets."))
+        write(f"dejaview-{t}.svg", project(
+            c, "Déjà View", "SwampHacks XII / 1st AI/ML, 1st DeepSpace",
+            ["Photos or video of any space become a", "3D world you walk into on Meta Quest,",
+             "in a browser, or in Roblox."],
+            lang_foot(c, by.get("Deja-View")), vis_dejaview(c), "violet",
+            "Deja View: photos or video of any space become a walkable 3D world on Meta Quest, the web, or Roblox. SwampHacks XII, 1st in two tracks."))
     print("built", len(os.listdir(OUT)), "files")
 
 

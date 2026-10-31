@@ -22,12 +22,12 @@
 
 <a href="https://github.com/OjasMishra32/Deja-View"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/dejaview-dark.svg?v=2"><img alt="Deja View: photos or video of any space become a walkable 3D world on Meta Quest, in a browser, or in Roblox. SwampHacks XII, 1st AI/ML and 1st DeepSpace." src="assets/dejaview-light.svg?v=2" width="100%"></picture></a>
 
-| More | |
-| :-- | :-- |
-| [**FUSE**](https://github.com/OjasMishra32/fuse) | Native iOS app for Bitrig Hacks (Y Combinator). Fold the iPhone Duo to fuse both screens into one AI result. |
-| [**Eyesight**](https://github.com/OjasMishra32/eyesight) | LiDAR plus on-device CoreML obstacle detection on iPhone. |
-| [**PreventaAI**](https://github.com/OjasMishra32/Preventa) | iOS app on the App Store, rated 5.0. SwiftUI and Firebase. |
-| [**Twinly API examples**](https://github.com/OjasMishra32/twinly-api-examples) | iMessage bots, calls in your voice, voice notes, and tasks on the Twinly API. |
+<table>
+<tr><td width="190"><a href="https://github.com/OjasMishra32/fuse"><b>FUSE</b></a></td><td>Native iOS app for Bitrig Hacks (Y Combinator). Fold the iPhone Duo to fuse both screens into one AI result.</td></tr>
+<tr><td width="190"><a href="https://github.com/OjasMishra32/eyesight"><b>Eyesight</b></a></td><td>LiDAR plus on-device CoreML obstacle detection on iPhone.</td></tr>
+<tr><td width="190"><a href="https://github.com/OjasMishra32/Preventa"><b>PreventaAI</b></a></td><td>iOS app on the App Store, rated 5.0. SwiftUI and Firebase.</td></tr>
+<tr><td width="190"><a href="https://github.com/OjasMishra32/twinly-api-examples"><b>Twinly API examples</b></a></td><td>iMessage bots, calls in your voice, voice notes, and tasks on the Twinly API.</td></tr>
+</table>
 
 <br>
 
@@ -35,27 +35,27 @@
 
 First author on three robot control papers with Prof. Min Xu and Dr. Xiaolong Wu at Carnegie Mellon, validated on a Franka Emika Panda.
 
-| | |
-| :-- | :-- |
-| **IEEE T-RO** | [Constraint-Aware Discrete-Time PID Gain Optimization for Robotic Joint Control Under Actuator Saturation](https://arxiv.org/abs/2601.18639v3) |
-| **ICRA 2027** | [Bounding Detector-Accepted Feedback Authority in Torque-Limited Robot Control](https://drive.google.com/file/d/1RI-l036hcbN7q3P3Y6LXI9N9ho1Zr-AK/view?usp=share_link) |
-| **IROS 2026** | [SCIG++: Risk-Limiting Conformal Safety Filtering for Attack-Resilient Robotic Joint Control Under Saturation](https://drive.google.com/file/d/1COkJVmCta2tpfIe8U3wy_0fB3YzXXIv5/view?usp=sharing) |
-| **SSRN** | [Introduction to Robotics and Programming](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5408322), a 120-page open-access textbook |
+<table>
+<tr><td width="110"><b>IEEE T-RO</b></td><td><a href="https://arxiv.org/abs/2601.18639v3">Constraint-Aware Discrete-Time PID Gain Optimization for Robotic Joint Control Under Actuator Saturation</a></td></tr>
+<tr><td width="110"><b>ICRA 2027</b></td><td><a href="https://drive.google.com/file/d/1RI-l036hcbN7q3P3Y6LXI9N9ho1Zr-AK/view?usp=share_link">Bounding Detector-Accepted Feedback Authority in Torque-Limited Robot Control</a></td></tr>
+<tr><td width="110"><b>IROS 2026</b></td><td><a href="https://drive.google.com/file/d/1COkJVmCta2tpfIe8U3wy_0fB3YzXXIv5/view?usp=sharing">SCIG++: Risk-Limiting Conformal Safety Filtering for Attack-Resilient Robotic Joint Control Under Saturation</a></td></tr>
+<tr><td width="110"><b>SSRN</b></td><td><a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5408322">Introduction to Robotics and Programming</a>, a 120-page open-access textbook</td></tr>
+</table>
 
 <br>
 
 ## Experience
 
-| | |
-| :-- | :-- |
-| **Northrop Grumman**<br>Software Engineer | Current role. |
-| **Drift** (Antler)<br>Founding AI/software engineer | Core infrastructure for a robotics AI coding workspace with 1,000+ users across ROS2, Gazebo, MuJoCo, and Isaac Sim. Shipped photo-to-3D scenes and a 129-robot catalog; traced a production Gazebo freeze to gz-transport multicast and fixed it. |
-| **CMU Xu Lab**<br>Research intern | Actuator-aware control, conformal safety filtering, and secure feedback control. Multimodal SLAM and constrained control from perception to actuation. |
-| **Twinly**<br>Co-founder and CEO | Digital clones of how you write, talk, and use a computer. macOS, Windows, and iOS apps with 1,000+ active users, including paying customers. Z Fellows cohort. |
-| **AlgoGators**<br>Quant research analyst | 1 of 2 first-years on the quant team of a ~$500K AUM student fund. Crack spread strategy with a 64% win rate across live trades. |
-| **EV Bots**<br>AI robotics intern | Built the first working autonomous EV-charging robot prototype. The work went into multiple provisional patents. |
-| **PteroLabs**<br>UAV simulation intern | Unreal Engine 5 UAV simulator with PX4, ArduPilot, and Betaflight SITL, used by UPenn for research. |
-| **iPipeline**<br>Software intern | Test frameworks, AI agents, and developer tooling adopted across engineering teams. |
+<table>
+<tr><td width="250"><b>Northrop Grumman</b><br>Software Engineer</td><td>Current role.</td></tr>
+<tr><td width="250"><b>Drift</b> (Antler)<br>Founding AI/software engineer</td><td>Core infrastructure for a robotics AI coding workspace with 1,000+ users across ROS2, Gazebo, MuJoCo, and Isaac Sim. Shipped photo-to-3D scenes and a 129-robot catalog; traced a production Gazebo freeze to gz-transport multicast and fixed it.</td></tr>
+<tr><td width="250"><b>CMU Xu Lab</b><br>Research intern</td><td>Actuator-aware control, conformal safety filtering, and secure feedback control. Multimodal SLAM and constrained control from perception to actuation.</td></tr>
+<tr><td width="250"><b>Twinly</b><br>Co-founder and CEO</td><td>Digital clones of how you write, talk, and use a computer. macOS, Windows, and iOS apps with 1,000+ active users, including paying customers. Z Fellows cohort.</td></tr>
+<tr><td width="250"><b>AlgoGators</b><br>Quant research analyst</td><td>1 of 2 first-years on the quant team of a ~$500K AUM student fund. Crack spread strategy with a 64% win rate across live trades.</td></tr>
+<tr><td width="250"><b>EV Bots</b><br>AI robotics intern</td><td>Built the first working autonomous EV-charging robot prototype. The work went into multiple provisional patents.</td></tr>
+<tr><td width="250"><b>PteroLabs</b><br>UAV simulation intern</td><td>Unreal Engine 5 UAV simulator with PX4, ArduPilot, and Betaflight SITL, used by UPenn for research.</td></tr>
+<tr><td width="250"><b>iPipeline</b><br>Software intern</td><td>Test frameworks, AI agents, and developer tooling adopted across engineering teams.</td></tr>
+</table>
 
 <br>
 

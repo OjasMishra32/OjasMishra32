@@ -66,12 +66,12 @@ def text(x0, y, s, size, fill, weight=400, ls=0, anchor="middle", cls=""):
             f'font-weight="{weight}" letter-spacing="{ls}" fill="{fill}">{x(s)}</text>')
 
 
-# The headline eases up once. It starts at 40% opacity, never hidden, so a
+# The headline eases up once. Only position moves, never opacity, so a
 # viewer that freezes the first frame still shows it.
 RISE = """
 .rise { animation: rise 1.2s cubic-bezier(.2,.7,.2,1) both; }
 .rise2 { animation: rise 1.2s cubic-bezier(.2,.7,.2,1) .15s both; }
-@keyframes rise { from { opacity: .4; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes rise { from { transform: translateY(12px); } to { transform: none; } }
 """
 
 

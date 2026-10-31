@@ -173,7 +173,7 @@ def hero(c):
 NOW = [
     ("Northrop Grumman", "Software Engineer", "blue"),
     ("Drift", "Founding AI/software engineer", "green"),
-    ("CMU Xu Lab", "Robotics research, 3 first-author papers", "violet"),
+    ("CMU Xu Lab", "3 first-author robotics papers", "violet"),
     ("Twinly", "Co-founder and CEO", "amber"),
 ]
 
@@ -190,8 +190,8 @@ def now(c):
   <g transform="translate({tx},{ty})">
     <rect x="1" y="1" width="{tw - 2}" height="{th - 2}" rx="18" fill="{c['card2'] if not hl else c['card']}" stroke="{c[col] if hl else c['border']}" stroke-width="{3 if hl else 2}"/>
     <rect x="30" y="38" width="8" height="88" rx="4" fill="{c[col]}"/>
-    <text x="62" y="80" font-family="{SANS}" font-size="44" font-weight="750" fill="{c['fg']}" letter-spacing="-1">{x(org)}</text>
-    <text x="63" y="122" font-family="{SANS}" font-size="27" fill="{c['muted']}">{x(role)}</text>
+    <text x="62" y="80" font-family="{SANS}" font-size="46" font-weight="750" fill="{c['fg']}" letter-spacing="-1">{x(org)}</text>
+    <text x="63" y="124" font-family="{SANS}" font-size="30" fill="{c['muted']}">{x(role)}</text>
   </g>''')
     return svg_open(W, H, "Now: " + "; ".join(f"{o}, {r}" for o, r, _ in NOW)) + "".join(tiles) + "\n</svg>\n"
 
@@ -213,7 +213,7 @@ def numbers(c, u):
         cx = cw * i + cw / 2
         cells.append(f'''
   <text x="{cx:.0f}" y="118" text-anchor="middle" font-family="{SANS}" font-size="74" font-weight="800" letter-spacing="-2" fill="{c[col]}">{x(num)}</text>
-  <text x="{cx:.0f}" y="170" text-anchor="middle" font-family="{SANS}" font-size="25" fill="{c['muted']}">{x(label)}</text>''')
+  <text x="{cx:.0f}" y="172" text-anchor="middle" font-family="{SANS}" font-size="27" fill="{c['muted']}">{x(label)}</text>''')
         if i:
             cells.append(f'<line x1="{cw * i:.0f}" y1="52" x2="{cw * i:.0f}" y2="180" stroke="{c["border"]}" stroke-width="2"/>')
     return svg_open(W, H, "; ".join(f"{n} {l}" for n, l, _ in items)) + f'''
@@ -238,6 +238,7 @@ def project(c, title, tag, lines, foot, visual, accent, label):
 @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.12); } }
 .shim { animation: shim 4s ease-in-out infinite; }
 @keyframes shim { 0%,100% { opacity: .35; } 50% { opacity: 1; } }
+@media (max-width: 700px) { .vis, .foot { display: none; } .txt { transform: translate(-12px,-40px) scale(1.3); } }
 """
     return svg_open(W, H, label, style) + f'''
 <defs>
@@ -247,11 +248,13 @@ def project(c, title, tag, lines, foot, visual, accent, label):
 <g clip-path="url(#pf)">
   <rect width="{W}" height="{H}" fill="url(#pbg)"/>
   <rect x="0" y="0" width="{W}" height="6" fill="{c[accent]}"/>
+  <g class="txt">
   <text x="64" y="92" font-family="{MONO}" font-size="22" fill="{c[accent]}">{x(tag)}</text>
   <text x="62" y="160" font-family="{SANS}" font-size="62" font-weight="800" letter-spacing="-2" fill="{c['fg']}">{x(title)}</text>
   {wrap_text(lines, 64, 218, 28, 40, c['fg'])}
-  <text x="64" y="{H - 40}" font-family="{MONO}" font-size="21" fill="{c['muted']}">{foot}</text>
-  <g transform="translate(760,64)">{visual}</g>
+  </g>
+  <text class="foot" x="64" y="{H - 40}" font-family="{MONO}" font-size="21" fill="{c['muted']}">{foot}</text>
+  <g class="vis" transform="translate(760,64)">{visual}</g>
 </g>
 <rect x="1" y="1" width="{W - 2}" height="{H - 2}" rx="22" fill="none" stroke="{c['border']}" stroke-width="2"/>
 </svg>

@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: ["scripts/**", ".github/workflows/profile.yml"]
+    paths: ["scripts/**", "render/scenes/skyline.html", ".github/workflows/profile.yml"]
 
 permissions:
   contents: write
@@ -17,10 +17,27 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Rebuild cards with live stats
+      - name: Section titles with the live contribution count
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 scripts/build.py
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Re-render the 3D contribution skyline
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CHROME_PATH: /usr/bin/google-chrome
+        working-directory: render
+        run: |
+          npm ci --no-audit --no-fund
+          gh api graphql -f query='query($u:String!){user(login:$u){contributionsCollection{contributionCalendar{totalContributions weeks{contributionDays{contributionCount weekday date}}}}}}' -f u="${{ github.repository_owner }}" --jq '.data.user.contributionsCollection.contributionCalendar' > contrib.json
+          for t in dark light; do
+            node render.mjs skyline $t 1200 400 1 out/sky-$t contrib.json
+            cp out/sky-$t/f0000.png ../assets/skyline-$t.png
+          done
 
       - name: Commit
         run: |

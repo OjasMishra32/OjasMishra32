@@ -1,0 +1,35 @@
+<!doctype html><html><head><meta charset="utf-8"></head><body><div id="stage"></div>
+<script type="module">
+import { THREE, W, H, C, theme, makeRenderer, lights, css } from './common.js';
+css(`#cap{left:72px;top:64px}#cap .n{font-size:64px;font-weight:700;letter-spacing:-2.5px;line-height:1}#cap .s{font-size:25px;color:${C.gray};margin-top:12px}`);
+const renderer = makeRenderer();
+const scene = new THREE.Scene(); scene.background = new THREE.Color(C.bg);
+const aspect = W / H, vs = 9.5;
+const cam = new THREE.OrthographicCamera(-vs * aspect / 2, vs * aspect / 2, vs / 2, -vs / 2, 0.1, 200);
+lights(scene, false);
+const sun = scene.children.find(o => o.isDirectionalLight);
+Object.assign(sun.shadow.camera, { left: -40, right: 40, top: 20, bottom: -20, near: 1, far: 120 }); sun.position.set(-14, 30, 18);
+window.setData = (d) => {
+  const days = d.weeks.flatMap((w, wi) => w.contributionDays.map(x => ({ ...x, wi })));
+  const max = Math.max(...days.map(x => x.contributionCount));
+  const base = new THREE.Color(theme === 'dark' ? '#202833' : '#e6ebf0'), hi = new THREE.Color(C.accent), mid = new THREE.Color(theme === 'dark' ? '#d7dee6' : '#9aa6b2');
+  const geo = new THREE.BoxGeometry(0.82, 1, 0.82);
+  const grp = new THREE.Group();
+  for (const x of days) {
+    const k = x.contributionCount / max;
+    const h = x.contributionCount ? 0.18 + 4.6 * Math.sqrt(k) : 0.06;
+    const col = x.contributionCount ? mid.clone().lerp(hi, Math.min(1, Math.sqrt(k) * 1.25)) : base;
+    const m = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ color: col, roughness: 0.55, metalness: 0.05 }));
+    m.scale.y = h; m.position.set(x.wi - 26, h / 2, x.weekday - 3); m.castShadow = m.receiveShadow = true; grp.add(m);
+  }
+  const plate = new THREE.Mesh(new THREE.BoxGeometry(54.5, 0.12, 8.5), new THREE.MeshStandardMaterial({ color: theme === 'dark' ? '#121821' : '#f3f6f9', roughness: 0.8 }));
+  plate.position.y = -0.06; plate.receiveShadow = true; grp.add(plate);
+  grp.position.set(0, 0, 0);
+  scene.add(grp);
+};
+window.draw = () => {
+  cam.position.set(10.5, 21.6, 40); cam.lookAt(0.5, 1.6, 0); cam.zoom = 0.5; cam.updateProjectionMatrix();
+  renderer.render(scene, cam);
+};
+window.ready = Promise.resolve();
+</script></body></html>

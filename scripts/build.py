@@ -1,11 +1,10 @@
-"""Builds the profile's typographic SVGs in assets/ (dark + light).
+"""Builds the profile's section titles in assets/ (dark + light SVGs).
 
-Monochrome, transparent backgrounds, one font stack. The only motion is the
-headline easing up once; every SVG is fully readable with animation off.
-Live numbers (contributions) come from the GitHub API so the daily workflow
-keeps the stats line current. Standard library only.
+Transparent, one font stack, a wide and a narrow (phone) layout in each
+file. The contributions title reads the live count from the GitHub API so
+the daily workflow keeps it current. The 3D renders live in render/.
+Standard library only.
 """
-import base64
 import json
 import os
 import urllib.request
@@ -66,15 +65,6 @@ def text(x0, y, s, size, fill, weight=400, ls=0, anchor="middle", cls=""):
             f'font-weight="{weight}" letter-spacing="{ls}" fill="{fill}">{x(s)}</text>')
 
 
-# The headline eases up once. Only position moves, never opacity, so a
-# viewer that freezes the first frame still shows it.
-RISE = """
-.rise { animation: rise 1.2s cubic-bezier(.2,.7,.2,1) both; }
-.rise2 { animation: rise 1.2s cubic-bezier(.2,.7,.2,1) .15s both; }
-@keyframes rise { from { transform: translateY(12px); } to { transform: none; } }
-"""
-
-
 # Every SVG carries a wide and a narrow layout. On a phone the README
 # column is ~300px wide, so the narrow one uses larger type and more lines.
 SWAP = """
@@ -89,19 +79,6 @@ def split2(s):
     return " ".join(words[:best]), " ".join(words[best:])
 
 
-def hero(c):
-    W, H = 1200, 450
-    wide = (text(600, 220, "Ojasva Mishra", 116, c["fg"], 700, -4, cls="rise")
-            + text(600, 302, "Software engineer at Northrop Grumman.", 34, c["gray"], 500, -.4, cls="rise2")
-            + text(600, 348, "Computer Engineering and Finance at the University of Florida.", 34, c["gray"], 500, -.4, cls="rise2"))
-    narrow = (text(600, 160, "Ojasva Mishra", 150, c["fg"], 700, -5, cls="rise")
-              + text(600, 262, "Software engineer at Northrop Grumman.", 60, c["gray"], 500, -.8, cls="rise2")
-              + text(600, 336, "Computer Engineering and Finance", 60, c["gray"], 500, -.8, cls="rise2")
-              + text(600, 410, "at the University of Florida.", 60, c["gray"], 500, -.8, cls="rise2"))
-    body = f'<g class="w">{wide}</g><g class="n">{narrow}</g>'
-    return svg(W, H, "Ojasva Mishra. Software engineer at Northrop Grumman. Computer Engineering and Finance at the University of Florida.", body, RISE + SWAP)
-
-
 def title(c, name, line, W=1200):
     if not line:
         body = f'<g class="w">{text(W / 2, 74, name, 62, c["fg"], 700, -1.8)}</g><g class="n">{text(W / 2, 104, name, 112, c["fg"], 700, -3)}</g>'
@@ -113,42 +90,7 @@ def title(c, name, line, W=1200):
     return svg(W, 290, f"{name}. {line}", f'<g class="w">{wide}</g><g class="n">{narrow}</g>', SWAP)
 
 
-def stats(c, u):
-    contrib = u["contributionsCollection"]["contributionCalendar"]["totalContributions"]
-    items = ["3 first-author papers", "1,000+ Twinly users", f"{contrib:,} contributions this year"]
-    s = "  ·  ".join(items)
-    wide = text(600, 60, s, 24, c["gray"], 500, -.2)
-    narrow = "".join(text(600, 60 + i * 66, t, 52, c["gray"], 500, -.6) for i, t in enumerate(items))
-    return svg(1200, 210, s, f'<g class="w">{wide}</g><g class="n">{narrow}</g>', SWAP)
-
-
-def photo(path, label, radius=28, crop=None):
-    """Embeds a real project image with rounded corners (one file for both themes)."""
-    import struct
-    with open(path, "rb") as f:
-        data = f.read()
-    # JPEG size from the SOF marker
-    i, w, h = 2, 0, 0
-    while i < len(data):
-        if data[i] != 0xFF:
-            i += 1
-            continue
-        marker = data[i + 1]
-        if marker in (0xC0, 0xC1, 0xC2):
-            h, w = struct.unpack(">HH", data[i + 5:i + 9])
-            break
-        i += 2 + struct.unpack(">H", data[i + 2:i + 4])[0]
-    b64 = base64.b64encode(data).decode()
-    cx, cy, cw, ch = crop or (0, 0, w, h)
-    return (f'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{cw}" height="{ch}" viewBox="{cx} {cy} {cw} {ch}" role="img" aria-label="{x(label)}">'
-            f'<defs><clipPath id="r"><rect x="{cx}" y="{cy}" width="{cw}" height="{ch}" rx="{radius * cw / 1200:.0f}"/></clipPath></defs>'
-            f'<image clip-path="url(#r)" width="{w}" height="{h}" href="data:image/jpeg;base64,{b64}" xlink:href="data:image/jpeg;base64,{b64}"/></svg>\n')
-
-
 SECTIONS = {
-    "applytwin": ("ApplyTwin", "Your job search, on autopilot. Free and open source."),
-    "courtside": ("Courtside", "Calls the point a median 162 ms before the bounce."),
-    "dejaview": ("Déjà View", "Photos of any space, turned into a world you walk into."),
     "experience": ("Experience", ""),
     "research": ("Research", ""),
     "more": ("Also built", ""),
@@ -161,13 +103,11 @@ def main():
         if f.endswith(".svg"):
             os.remove(os.path.join(OUT, f))
     u = fetch()
+    n = u["contributionsCollection"]["contributionCalendar"]["totalContributions"]
     for t, c in THEMES.items():
-        write(f"hero-{t}.svg", hero(c))
-        write(f"stats-{t}.svg", stats(c, u))
         for key, (name, line) in SECTIONS.items():
             write(f"t-{key}-{t}.svg", title(c, name, line))
-    write("photo-courtside.svg", photo(os.path.join(MEDIA, "courtside.jpg"), "Courtside: the tracker following the ball through a real tennis rally, with court lines fitted per frame.", crop=(0, 90, 636, 600)))
-    write("photo-dejaview.svg", photo(os.path.join(MEDIA, "dejaview.jpg"), "Deja View: a room reconstructed as a walkable 3D scene in the browser."))
+        write(f"t-contrib-{t}.svg", title(c, f"{n:,}", "contributions in the last year"))
     print("built", len(os.listdir(OUT)), "files")
 
 

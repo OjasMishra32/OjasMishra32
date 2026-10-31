@@ -1,0 +1,91 @@
+<!doctype html><html><head><meta charset="utf-8"></head><body>
+<div id="stage"></div>
+<div class="ov" id="t"></div>
+<script type="module">
+import { THREE, W, H, C, makeRenderer, floorDisc, lights, fadeLine, css } from './common.js';
+css(`#t{left:72px;top:0;height:${H}px;display:flex;flex-direction:column;justify-content:center;max-width:560px}
+#t h1{font-size:92px;line-height:.98;margin:0;font-weight:700;letter-spacing:-3.5px}
+#t .r{font-size:31px;font-weight:600;margin-top:26px;letter-spacing:-.4px}
+#t .s{font-size:25px;color:${C.gray};margin-top:10px;letter-spacing:-.2px;line-height:1.3}
+#t .k{display:inline-block;width:34px;height:3px;background:${C.accent};margin-bottom:26px;border-radius:2px}`);
+document.getElementById('t').innerHTML = `<h1>Ojasva<br>Mishra</h1><div class="r">Computer Engineering + Finance at UF</div><div class="s">Robotics, AI systems, quant research</div>`;
+
+const renderer = makeRenderer();
+const scene = new THREE.Scene(); scene.background = new THREE.Color(C.bg);
+const cam = new THREE.PerspectiveCamera(30, W / H, 0.1, 50);
+cam.setViewOffset(W, H, -W * 0.2, 0, W, H); // put the arm in the right part of the frame
+lights(scene);
+scene.add(floorDisc(1.6));
+
+const white = new THREE.MeshStandardMaterial({ color: C.body, roughness: 0.38, metalness: 0.05 });
+const dark = new THREE.MeshStandardMaterial({ color: C.joint, roughness: 0.5, metalness: 0.2 });
+const accentM = new THREE.MeshBasicMaterial({ color: C.accent, toneMapped: false });
+const cast = (m) => { m.castShadow = true; m.receiveShadow = true; return m; };
+const caps = (r, len, mat) => cast(new THREE.Mesh(new THREE.CapsuleGeometry(r, len, 12, 32), mat));
+const cyl = (r, h, mat) => cast(new THREE.Mesh(new THREE.CylinderGeometry(r, r, h, 48), mat));
+
+// geometry (meters-ish)
+const H0 = 0.34, L1 = 0.42, L2 = 0.38, LW = 0.16;
+const base = new THREE.Group(); scene.add(base);
+{ const b = cyl(0.11, 0.05, dark); b.position.y = 0.025; base.add(b); }
+const yaw = new THREE.Group(); yaw.position.y = 0.05; base.add(yaw);
+const col = caps(0.062, H0 - 0.14, white); col.position.y = (H0 - 0.05) / 2; yaw.add(col);
+const shoulder = new THREE.Group(); shoulder.position.y = H0 - 0.05; yaw.add(shoulder);
+const sj = cyl(0.068, 0.15, dark); sj.rotation.x = Math.PI / 2; shoulder.add(sj);
+const up = caps(0.052, L1 - 0.1, white); up.position.y = L1 / 2; shoulder.add(up);
+const elbow = new THREE.Group(); elbow.position.y = L1; shoulder.add(elbow);
+const ej = cyl(0.058, 0.13, dark); ej.rotation.x = Math.PI / 2; elbow.add(ej);
+const fo = caps(0.045, L2 - 0.09, white); fo.position.y = L2 / 2; elbow.add(fo);
+const wrist = new THREE.Group(); wrist.position.y = L2; elbow.add(wrist);
+const wj = cyl(0.048, 0.11, dark); wj.rotation.x = Math.PI / 2; wrist.add(wj);
+const hand = new THREE.Group(); wrist.add(hand);
+const wl = caps(0.038, LW - 0.07, white); wl.position.y = LW / 2 - 0.02; hand.add(wl);
+const flange = cyl(0.05, 0.03, dark); flange.position.y = LW - 0.02; hand.add(flange);
+const ring = new THREE.Mesh(new THREE.TorusGeometry(0.052, 0.006, 12, 48), accentM); ring.rotation.x = Math.PI / 2; ring.position.y = LW - 0.035; hand.add(ring);
+for (const s of [-1, 1]) { const f = cast(new THREE.Mesh(new THREE.BoxGeometry(0.018, 0.07, 0.04), dark)); f.position.set(s * 0.028, LW + 0.03, 0); hand.add(f); }
+
+// trajectory: a figure-eight in front of the arm
+const center = new THREE.Vector3(0.52, 0.42, 0), A = 0.3;
+const target = (t) => {
+  const p = 2 * Math.PI * t, d = 1 + Math.sin(p) ** 2;
+  return new THREE.Vector3(center.x + 0.05 * Math.sin(2 * p), center.y + 0.36 * Math.sin(p) * Math.cos(p) / d, center.z + 0.34 * Math.cos(p) / d);
+};
+// reference path (faint)
+const refPts = []; for (let i = 0; i <= 240; i++) refPts.push(target(i / 240));
+const refGeo = new THREE.BufferGeometry().setFromPoints(refPts);
+scene.add(new THREE.Line(refGeo, new THREE.LineDashedMaterial({ color: C.dim, dashSize: 0.015, gapSize: 0.012 })));
+scene.children.at(-1).computeLineDistances();
+
+function solve(p) {
+  // gripper points straight down; wrist center sits LW + finger above target
+  const w = p.clone().add(new THREE.Vector3(0, LW + 0.06, 0));
+  const th0 = Math.atan2(-w.z, w.x);
+  const r = Math.hypot(w.x, w.z), y = w.y - (0.05 + H0 - 0.05);
+  const D = Math.min(0.999, (r * r + y * y - L1 * L1 - L2 * L2) / (2 * L1 * L2));
+  const q2 = Math.acos(D);                    // elbow
+  const q1 = Math.atan2(y, r) + Math.atan2(L2 * Math.sin(q2), L1 + L2 * Math.cos(q2)); // shoulder elevation
+  return { th0, a1: Math.PI / 2 - q1, a2: q2 };
+}
+let trail = null;
+const marker = new THREE.Mesh(new THREE.SphereGeometry(0.012, 24, 16), accentM); scene.add(marker);
+
+window.draw = (t) => {
+  const p = target(t);
+  const { th0, a1, a2 } = solve(p);
+  yaw.rotation.y = th0;
+  shoulder.rotation.z = -a1;              // lean forward from vertical
+  elbow.rotation.z = -a2;
+  // keep the hand vertical: undo accumulated pitch
+  wrist.rotation.z = Math.PI + a1 + a2;
+  marker.position.copy(p);
+  if (trail) { scene.remove(trail); trail.geometry.dispose(); }
+  const pts = []; for (let i = 0; i <= 70; i++) pts.push(target(t - 0.6 * (1 - i / 70)));
+  trail = fadeLine(pts, C.accent, C.bg, 0.0055); scene.add(trail);
+  const az = 0.62, el = 0.26;
+  const R = 2.55;
+  cam.position.set(R * Math.cos(el) * Math.cos(az), 0.25 + R * Math.sin(el), R * Math.cos(el) * Math.sin(az));
+  cam.lookAt(0.3, 0.45, 0);
+  renderer.render(scene, cam);
+};
+window.ready = Promise.resolve();
+</script></body></html>

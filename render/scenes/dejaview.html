@@ -1,0 +1,58 @@
+<!doctype html><html><head><meta charset="utf-8"></head><body><div id="stage"></div>
+<script type="module">
+import { THREE, W, H, C, theme, makeRenderer, css, sideTitle } from './common.js';
+css(); sideTitle('Déjà View', 'Photos of any space,<br>rebuilt as a world<br>you walk into.');
+const renderer = makeRenderer();
+const scene = new THREE.Scene(); scene.background = new THREE.Color(C.bg);
+const cam = new THREE.PerspectiveCamera(42, W / H, 0.05, 60);
+cam.setViewOffset(W, H, -W * 0.15, 0, W, H);
+
+// soft round splat sprite
+const sp = document.createElement('canvas'); sp.width = sp.height = 64;
+const sg = sp.getContext('2d'); const gr = sg.createRadialGradient(32, 32, 0, 32, 32, 32);
+gr.addColorStop(0, 'rgba(255,255,255,1)'); gr.addColorStop(0.45, 'rgba(255,255,255,.85)'); gr.addColorStop(1, 'rgba(255,255,255,0)');
+sg.fillStyle = gr; sg.fillRect(0, 0, 64, 64);
+const sprite = new THREE.CanvasTexture(sp);
+
+window.ready = new Promise((res) => {
+  const img = new Image(); img.src = '/media/dejaview.jpg';
+  img.onload = () => {
+    const iw = 400, ih = 250;
+    const cv = document.createElement('canvas'); cv.width = iw; cv.height = ih;
+    const g = cv.getContext('2d'); g.drawImage(img, 0, 0, iw, ih);
+    const px = g.getImageData(0, 0, iw, ih).data;
+    // a box room around the original camera: floor, ceiling, back and side walls
+    const hf = Math.tan((66 * Math.PI / 180) / 2), vf = hf * ih / iw;
+    const planes = [[1, -1.25], [1, 1.75], [2, -6.2], [0, -3.4], [0, 3.6]]; // [axis, value]
+    const pos = [], col = [];
+    const rnd = (i) => (Math.sin(i * 12.9898) * 43758.5453) % 1;
+    for (let v = 0; v < ih; v++) for (let u = 0; u < iw; u++) {
+      const i = v * iw + u;
+      if (Math.abs(rnd(i)) > 0.36) continue; if (u < iw * 0.03 || u > iw * 0.97 || v < ih * 0.1 || v > ih * 0.9) continue;                 // thin out
+      const d = new THREE.Vector3(((u + 0.5) / iw - 0.5) * 2 * hf, -((v + 0.5) / ih - 0.5) * 2 * vf, -1);
+      let best = Infinity;
+      for (const [ax, val] of planes) { const comp = ax === 0 ? d.x : ax === 1 ? d.y : d.z; if (Math.abs(comp) < 1e-6) continue; const t = val / comp; if (t > 0 && t < best) best = t; }
+      const p = d.multiplyScalar(best * (1 + 0.012 * rnd(i * 3)));
+      pos.push(p.x, p.y, p.z);
+      const c = new THREE.Color(px[i * 4] / 255, px[i * 4 + 1] / 255, px[i * 4 + 2] / 255);
+      c.convertSRGBToLinear(); c.multiplyScalar(1.3);
+      col.push(c.r, c.g, c.b);
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    geo.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
+    const mat = new THREE.PointsMaterial({ size: 0.09, map: sprite, vertexColors: true, transparent: true, alphaTest: 0.08, depthWrite: false, sizeAttenuation: true });
+    scene.add(new THREE.Points(geo, mat));
+    console.log('points', pos.length / 3);
+    res();
+  };
+});
+window.draw = (t) => {
+  const a = Math.sin(2 * Math.PI * t);
+  const yaw = 0.34 * a, pivot = new THREE.Vector3(0, -0.2, -3.6);
+  const r = 6.3 + 0.35 * Math.cos(2 * Math.PI * t);
+  cam.position.set(pivot.x + r * Math.sin(yaw), 1.2 + 0.2 * Math.cos(2 * Math.PI * t), pivot.z + r * Math.cos(yaw));
+  cam.lookAt(pivot);
+  renderer.render(scene, cam);
+};
+</script></body></html>

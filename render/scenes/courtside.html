@@ -1,0 +1,69 @@
+<!doctype html><html><head><meta charset="utf-8"></head><body><div id="stage"></div>
+<script type="module">
+import { THREE, W, H, C, theme, makeRenderer, floorDisc, lights, fadeLine, css, sideTitle, label, toScreen } from './common.js';
+css(); sideTitle('Courtside', 'Calls the point a median<br>162 ms before the bounce.');
+const renderer = makeRenderer();
+const scene = new THREE.Scene(); scene.background = new THREE.Color(C.bg);
+const cam = new THREE.PerspectiveCamera(28, W / H, 0.1, 50);
+cam.setViewOffset(W, H, -W * 0.2, 0, W, H);
+lights(scene); scene.add(floorDisc(2.6));
+const cast = (m) => { m.castShadow = true; m.receiveShadow = true; return m; };
+// table: 2.74 x 1.525 m, 0.76 m high
+const TL = 2.74, TW = 1.525, TH = 0.76;
+const topM = new THREE.MeshStandardMaterial({ color: theme === 'dark' ? '#1d2735' : '#2a3a4d', roughness: 0.6 });
+const legM = new THREE.MeshStandardMaterial({ color: C.joint, roughness: 0.5 });
+const top = cast(new THREE.Mesh(new THREE.BoxGeometry(TL, 0.03, TW), topM)); top.position.y = TH; scene.add(top);
+const lineM = new THREE.MeshBasicMaterial({ color: '#e9eef3', toneMapped: false });
+const strip = (w, d, x, z) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, 0.002, d), lineM); m.position.set(x, TH + 0.016, z); scene.add(m); };
+strip(TL, 0.02, 0, TW / 2 - 0.01); strip(TL, 0.02, 0, -TW / 2 + 0.01); strip(0.02, TW, TL / 2 - 0.01, 0); strip(0.02, TW, -TL / 2 + 0.01, 0); strip(TL, 0.004, 0, 0);
+for (const x of [-1.1, 1.1]) for (const z of [-0.6, 0.6]) { const l = cast(new THREE.Mesh(new THREE.BoxGeometry(0.05, TH, 0.05), legM)); l.position.set(x, TH / 2, z); scene.add(l); }
+const net = new THREE.Mesh(new THREE.PlaneGeometry(TW + 0.3, 0.1525), new THREE.MeshStandardMaterial({ color: '#cfd6dd', transparent: true, opacity: 0.35, side: THREE.DoubleSide }));
+net.rotation.y = Math.PI / 2; net.position.set(0, TH + 0.076, 0); scene.add(net);
+const tape = new THREE.Mesh(new THREE.BoxGeometry(0.01, 0.012, TW + 0.3), lineM); tape.position.set(0, TH + 0.152, 0); scene.add(tape);
+
+const ballM = new THREE.MeshStandardMaterial({ color: '#ffffff', emissive: '#ffffff', emissiveIntensity: 0.35, roughness: 0.3 });
+const ball = cast(new THREE.Mesh(new THREE.SphereGeometry(0.03, 32, 16), ballM)); scene.add(ball);
+const g = 9.81;
+// one shot: from (x0, y0, z0) to bounce at (xb, TH, zb), then up and off
+function shot(dir, z0, zb, zr) {
+  const x0 = -dir * 1.55, y0 = TH + 0.2, xb = dir * 0.85, T1 = 0.55;
+  const vx = (xb - x0) / T1, vz = (zb - z0) / T1, vy = ((TH + 0.03) - y0 + 0.5 * g * T1 * T1) / T1;
+  const vy2 = -(vy - g * T1) * 0.82, vx2 = vx * 0.9, vz2 = (zr - zb) / 0.45;
+  return (tt) => tt < T1
+    ? new THREE.Vector3(x0 + vx * tt, y0 + vy * tt - 0.5 * g * tt * tt, z0 + vz * tt)
+    : (() => { const u = tt - T1; return new THREE.Vector3(xb + vx2 * u, TH + 0.03 + vy2 * u - 0.5 * g * u * u, zb + vz2 * u); })();
+}
+const shots = [shot(1, -0.2, 0.35, 0.45), shot(-1, 0.45, -0.3, -0.2)];
+const SHOT = 1.0, T1 = 0.55, CALL = T1 - 0.162;
+const pos = (t) => { const k = Math.floor(t * 2) % 2; return { p: shots[k]((t * 2 - Math.floor(t * 2)) * SHOT), k, tt: (t * 2 - Math.floor(t * 2)) * SHOT }; };
+let trail = null, pred = null;
+const ring = new THREE.Mesh(new THREE.RingGeometry(0.05, 0.062, 48), new THREE.MeshBasicMaterial({ color: C.accent, toneMapped: false, transparent: true }));
+ring.rotation.x = -Math.PI / 2; scene.add(ring);
+const lab = label('call'); lab.style.color = C.accent;
+window.draw = (t) => {
+  const { p, k, tt } = pos(t);
+  ball.position.copy(p);
+  if (trail) { scene.remove(trail); trail.geometry.dispose(); }
+  const pts = []; for (let i = 0; i <= 30; i++) { const ti = tt - 0.3 * (1 - i / 30); if (ti >= 0) pts.push(shots[k](ti)); }
+  trail = pts.length > 2 ? fadeLine(pts, theme === 'dark' ? '#ffffff' : '#59636e', C.bg, 0.006) : null; if (trail) scene.add(trail);
+  if (pred) { scene.remove(pred); pred = null; }
+  const bounce = shots[k](T1);
+  const show = tt >= CALL && tt < T1 + 0.22;
+  ring.visible = show; lab.style.display = show ? 'block' : 'none';
+  if (show) {
+    ring.position.set(bounce.x, TH + 0.018, bounce.z);
+    const sc = 1 + Math.max(0, tt - T1) * 4; ring.scale.set(sc, sc, sc); ring.material.opacity = tt < T1 ? 1 : Math.max(0, 1 - (tt - T1) / 0.22);
+    if (tt < T1) {
+      const pp = []; for (let i = 0; i <= 20; i++) pp.push(shots[k](tt + (T1 - tt) * i / 20));
+      const geo = new THREE.BufferGeometry().setFromPoints(pp);
+      pred = new THREE.Line(geo, new THREE.LineDashedMaterial({ color: C.accent, dashSize: 0.03, gapSize: 0.02 })); pred.computeLineDistances(); scene.add(pred);
+    }
+    const s = toScreen(new THREE.Vector3(bounce.x, TH + 0.02, bounce.z), cam);
+    lab.style.left = s.x + 'px'; lab.style.top = (s.y + 16) + 'px'; lab.style.transform = 'translate(-50%,0)';
+    lab.textContent = tt < T1 ? 'called 162 ms early' : 'bounce';
+  }
+  cam.position.set(0.25, 2.25, 4.4); cam.lookAt(0, TH - 0.02, 0);
+  renderer.render(scene, cam);
+};
+window.ready = Promise.resolve();
+</script></body></html>

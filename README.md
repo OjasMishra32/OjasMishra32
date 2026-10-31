@@ -1,4 +1,4 @@
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/hero-dark.gif?v=20"><img alt="Ojasva Mishra. Computer Engineering + Finance at UF. Robotics, AI systems, quant research. A rendered robot arm tracks a figure-eight trajectory." src="assets/hero-light.gif?v=20" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/hero-dark.gif?v=21"><img alt="Ojasva Mishra. Computer Engineering + Finance at UF. Robotics, AI systems, quant research. A rendered robot arm tracks a figure-eight trajectory." src="assets/hero-light.gif?v=21" width="100%"></picture>
 
 <p align="center">
 <a href="https://ojasvamishra.me">ojasvamishra.me ›</a>&emsp;&emsp;<a href="https://linkedin.com/in/ojasvamishra">LinkedIn ›</a>&emsp;&emsp;<a href="https://github.com/OjasMishra32/applytwin">ApplyTwin ›</a>
@@ -6,7 +6,7 @@
 
 <br>
 
-<a href="https://github.com/OjasMishra32/applytwin"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/applytwin-dark.gif?v=20"><img alt="ApplyTwin: resumes move from a pile of postings, get tailored, and land in the sent pile." src="assets/applytwin-light.gif?v=20" width="100%"></picture></a>
+<a href="https://github.com/OjasMishra32/applytwin"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/applytwin-dark.gif?v=21"><img alt="ApplyTwin: resumes move from a pile of postings, get tailored, and land in the sent pile." src="assets/applytwin-light.gif?v=21" width="100%"></picture></a>
 
 <p align="center">
 Finds internships that fit you, tailors a resume to each posting, and fills the applications<br>on your own Claude Code or Codex plan. Free and open source.
@@ -18,7 +18,7 @@ Finds internships that fit you, tailors a resume to each posting, and fills the 
 
 <br>
 
-<a href="https://github.com/OjasMishra32/computervision_quant_strategy"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/courtside-dark.gif?v=20"><img alt="Courtside: a table tennis rally where the bounce is called before the ball lands." src="assets/courtside-light.gif?v=20" width="100%"></picture></a>
+<a href="https://github.com/OjasMishra32/computervision_quant_strategy"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/courtside-dark.gif?v=21"><img alt="Courtside: a table tennis rally where the bounce is called before the ball lands." src="assets/courtside-light.gif?v=21" width="100%"></picture></a>
 
 <p align="center">
 A causal computer-vision ball tracker at 119.9 fps with no wrong calls on held-out table tennis,<br>plus a latency study of 13,084 Polymarket tennis markets. Gator Quant Hacks 2026.
@@ -30,7 +30,7 @@ A causal computer-vision ball tracker at 119.9 fps with no wrong calls on held-o
 
 <br>
 
-<a href="https://deja-view.photo"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/dejaview-dark.gif?v=20"><img alt="Deja View: a stylized point-cloud render of a room from a Deja View capture, orbiting." src="assets/dejaview-light.gif?v=20" width="100%"></picture></a>
+<a href="https://deja-view.photo"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/dejaview-dark.gif?v=21"><img alt="Deja View: a stylized point-cloud render of a room from a Deja View capture, orbiting." src="assets/dejaview-light.gif?v=21" width="100%"></picture></a>
 
 <p align="center">
 On Meta Quest, in the browser, or in Roblox. A ~1M-Gaussian splat trained on UF HiPerGator<br>in 11 minutes. 1st in AI/ML and 1st in DeepSpace at SwampHacks XII.
@@ -42,7 +42,7 @@ On Meta Quest, in the browser, or in Roblox. A ~1M-Gaussian splat trained on UF 
 
 <br><br>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/t-experience-dark.svg?v=20"><img alt="Experience" src="assets/t-experience-light.svg?v=20" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/t-experience-dark.svg?v=21"><img alt="Experience" src="assets/t-experience-light.svg?v=21" width="100%"></picture>
 
 <p align="center">
 <b>Software Engineer, Northrop Grumman</b>
@@ -70,7 +70,7 @@ On Meta Quest, in the browser, or in Roblox. A ~1M-Gaussian splat trained on UF 
 
 <br><br>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/t-research-dark.svg?v=20"><img alt="Research" src="assets/t-research-light.svg?v=20" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/t-research-dark.svg?v=21"><img alt="Research" src="assets/t-research-light.svg?v=21" width="100%"></picture>
 
 <p align="center">
 <b>Constraint-Aware Discrete-Time PID Gain Optimization for Robotic Joint Control Under Actuator Saturation</b><br>First author. IEEE T-RO.&emsp;<a href="https://arxiv.org/abs/2601.18639v3">Read ›</a>
@@ -86,13 +86,13 @@ On Meta Quest, in the browser, or in Roblox. A ~1M-Gaussian splat trained on UF 
 
 <br><br>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/t-contrib-dark.svg?v=20"><img alt="Contributions in the last year" src="assets/t-contrib-light.svg?v=20" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/t-contrib-dark.svg?v=21"><img alt="Contributions in the last year" src="assets/t-contrib-light.svg?v=21" width="100%"></picture>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/skyline-dark.png?v=20"><img alt="My GitHub contribution calendar rendered as a 3D skyline, one tower per day." src="assets/skyline-light.png?v=20" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/skyline-dark.png?v=21"><img alt="My GitHub contribution calendar rendered as a 3D skyline, one tower per day." src="assets/skyline-light.png?v=21" width="100%"></picture>
 
 <br><br>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/t-more-dark.svg?v=20"><img alt="Also built" src="assets/t-more-light.svg?v=20" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/t-more-dark.svg?v=21"><img alt="Also built" src="assets/t-more-light.svg?v=21" width="100%"></picture>
 
 <p align="center">
 <a href="https://github.com/OjasMishra32/fuse">FUSE ›</a>&emsp;&emsp;<a href="https://github.com/OjasMishra32/eyesight">Eyesight ›</a>&emsp;&emsp;<a href="https://github.com/OjasMishra32/Preventa">PreventaAI ›</a>&emsp;&emsp;<a href="https://github.com/OjasMishra32/twinly-api-examples">Twinly API ›</a>

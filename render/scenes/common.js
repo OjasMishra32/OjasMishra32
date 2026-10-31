@@ -71,6 +71,7 @@ export const css = (extra = '') => {
   const s = document.createElement('style');
   s.textContent = `html,body{margin:0;background:${C.bg};overflow:hidden;width:${W}px;height:${H}px}
   #stage{position:absolute;inset:0}
+  #stage::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(to bottom, transparent 0%, transparent 72%, ${C.bg} 100%),linear-gradient(to right, transparent 85%, ${C.bg} 100%),linear-gradient(to top, transparent 88%, ${C.bg} 100%)}
   .ov{position:absolute;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',Inter,'Helvetica Neue',Arial,sans-serif;color:${C.fg};-webkit-font-smoothing:antialiased}
   ${extra}`;
   document.head.appendChild(s);

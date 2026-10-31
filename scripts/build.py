@@ -355,9 +355,9 @@ def latest(u, n=5):
         if len(desc) > 72:
             desc = desc[:72].rsplit(" ", 1)[0].rstrip(",.:;") + "..."
         lang = (r["primaryLanguage"] or {}).get("name")
-        bits = " · ".join(b for b in [desc, lang] if b)
-        rows.append(f"| [**{r['name']}**]({r['url']}) | {bits} | {ago(r['pushedAt'])} |")
-    return "| Repo | What | Last push |\n| :-- | :-- | --: |\n" + "\n".join(rows)
+        lang_s = f" · {lang}" if lang else ""
+        rows.append(f"- [**{r['name']}**]({r['url']}){lang_s} · <sub>pushed {ago(r['pushedAt'])}</sub>" + (f"<br>{desc}" if desc else ""))
+    return "\n".join(rows)
 
 
 def update_readme(u):

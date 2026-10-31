@@ -1,15 +1,15 @@
 <!-- Layout techniques after Andrew6rant (neofetch-style card) and DenverCoder1 (typing header, streak card from his MIT-licensed github-readme-streak-stats). Snake from Platane/snk. No code copied from their repos. -->
 <div align="center">
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/header-dark.svg?r=2"><img alt="Ojasva Mishra. Computer Engineering and Finance, University of Florida." src="assets/header-light.svg?r=2" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/header-dark.svg?r=3"><img alt="Ojasva Mishra. Computer Engineering and Finance, University of Florida." src="assets/header-light.svg?r=3" width="100%"></picture>
 
-<a href="https://ojasvamishra.me">ojasvamishra.me</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="https://linkedin.com/in/ojasvamishra">LinkedIn</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="mailto:ojasvamishra32@gmail.com">Email</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="https://github.com/OjasMishra32/applytwin">ApplyTwin</a>
+<a href="https://ojasvamishra.me">ojasvamishra.me</a> &nbsp;/&nbsp; <a href="https://linkedin.com/in/ojasvamishra">LinkedIn</a> &nbsp;/&nbsp; <a href="mailto:ojasvamishra32@gmail.com">Email</a> &nbsp;/&nbsp; <a href="https://github.com/OjasMishra32/applytwin">ApplyTwin</a>
 
 </div>
 
 <div align="center">
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/about-dark.svg?r=2"><img alt="ojasva@mishra: UF CompE + Finance 2029; Drift founding engineer; CMU Xu Lab, 3 first-author papers; Twinly co-founder and CEO; AlgoGators quant research. Live GitHub stats." src="assets/about-light.svg?r=2" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/about-dark.svg?r=3"><img alt="ojasva@mishra: UF CompE + Finance 2029; Drift founding engineer; CMU Xu Lab, 3 first-author papers; Twinly co-founder and CEO; AlgoGators quant research. Live GitHub stats." src="assets/about-light.svg?r=3" width="100%"></picture>
 
 </div>
 
@@ -22,25 +22,23 @@
 
 ### Featured
 
-<a href="https://github.com/OjasMishra32/applytwin"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/card-applytwin-dark.svg?r=2"><img alt="ApplyTwin: free, open-source job search on autopilot. Finds internships, tailors a resume per posting, fills applications on your own Claude Code or Codex plan." src="assets/card-applytwin-light.svg?r=2" width="100%"></picture></a>
+<a href="https://github.com/OjasMishra32/applytwin"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/card-applytwin-dark.svg?r=3"><img alt="ApplyTwin: free, open-source job search on autopilot. Finds internships, tailors a resume per posting, fills applications on your own Claude Code or Codex plan." src="assets/card-applytwin-light.svg?r=3" width="100%"></picture></a>
 
-<a href="https://github.com/OjasMishra32/computervision_quant_strategy"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/card-computervision_quant_strategy-dark.svg?r=2"><img alt="Courtside: CV ball tracker calls the point a median 162 ms before the bounce; latency study of 13,084 Polymarket markets." src="assets/card-computervision_quant_strategy-light.svg?r=2" width="49%"></picture></a>
-<a href="https://github.com/OjasMishra32/Deja-View"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/card-deja-view-dark.svg?r=2"><img alt="Deja View: photos or video into a walkable 3D world on Quest, web, or Roblox. SwampHacks XII, 1st in two tracks." src="assets/card-deja-view-light.svg?r=2" width="49%"></picture></a>
-<a href="https://github.com/OjasMishra32/fuse"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/card-fuse-dark.svg?r=2"><img alt="FUSE: fold the iPhone Duo to fuse both screens into one AI result." src="assets/card-fuse-light.svg?r=2" width="49%"></picture></a>
-<a href="https://github.com/OjasMishra32/eyesight"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/card-eyesight-dark.svg?r=2"><img alt="Eyesight: LiDAR plus on-device CoreML obstacle detection." src="assets/card-eyesight-light.svg?r=2" width="49%"></picture></a>
-<a href="https://github.com/OjasMishra32/Preventa"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/card-preventa-dark.svg?r=2"><img alt="PreventaAI: iOS app on the App Store, rated 5.0." src="assets/card-preventa-light.svg?r=2" width="49%"></picture></a>
-<a href="https://github.com/OjasMishra32/twinly-api-examples"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/card-twinly-api-examples-dark.svg?r=2"><img alt="Twinly API examples: iMessage bots, calls in your voice, voice notes, tasks." src="assets/card-twinly-api-examples-light.svg?r=2" width="49%"></picture></a>
+<a href="https://github.com/OjasMishra32/computervision_quant_strategy"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/card-computervision_quant_strategy-dark.svg?r=3"><img alt="Courtside: CV ball tracker calls the point a median 162 ms before the bounce; latency study of 13,084 Polymarket markets." src="assets/card-computervision_quant_strategy-light.svg?r=3" width="49%"></picture></a>
+<a href="https://github.com/OjasMishra32/Deja-View"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/card-deja-view-dark.svg?r=3"><img alt="Deja View: photos or video into a walkable 3D world on Quest, web, or Roblox. SwampHacks XII, 1st in two tracks." src="assets/card-deja-view-light.svg?r=3" width="49%"></picture></a>
+<a href="https://github.com/OjasMishra32/fuse"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/card-fuse-dark.svg?r=3"><img alt="FUSE: fold the iPhone Duo to fuse both screens into one AI result." src="assets/card-fuse-light.svg?r=3" width="49%"></picture></a>
+<a href="https://github.com/OjasMishra32/eyesight"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/card-eyesight-dark.svg?r=3"><img alt="Eyesight: LiDAR plus on-device CoreML obstacle detection." src="assets/card-eyesight-light.svg?r=3" width="49%"></picture></a>
+<a href="https://github.com/OjasMishra32/Preventa"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/card-preventa-dark.svg?r=3"><img alt="PreventaAI: iOS app on the App Store, rated 5.0." src="assets/card-preventa-light.svg?r=3" width="49%"></picture></a>
+<a href="https://github.com/OjasMishra32/twinly-api-examples"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/card-twinly-api-examples-dark.svg?r=3"><img alt="Twinly API examples: iMessage bots, calls in your voice, voice notes, tasks." src="assets/card-twinly-api-examples-light.svg?r=3" width="49%"></picture></a>
 
 ### Latest work
 
 <!-- LATEST:START -->
-| Repo | What | Last push |
-| :-- | :-- | --: |
-| [**applytwin**](https://github.com/OjasMishra32/applytwin) | Your job search on autopilot: finds every role that fits you, tailors... · Python | today |
-| [**lucid_dreams**](https://github.com/OjasMishra32/lucid_dreams) | TypeScript | 5 days ago |
-| [**twinly-api-examples**](https://github.com/OjasMishra32/twinly-api-examples) | Starter projects for the Twinly API: iMessage bots, calls in your... · JavaScript | 8 days ago |
-| [**Deja-View**](https://github.com/OjasMishra32/Deja-View) | TypeScript | 10 days ago |
-| [**OjasvaMishraWebsite**](https://github.com/OjasMishra32/OjasvaMishraWebsite) | MyWebsite · TypeScript | 11 days ago |
+- [**applytwin**](https://github.com/OjasMishra32/applytwin) · Python · <sub>pushed today</sub><br>Your job search on autopilot: finds every role that fits you, tailors...
+- [**lucid_dreams**](https://github.com/OjasMishra32/lucid_dreams) · TypeScript · <sub>pushed 5 days ago</sub>
+- [**twinly-api-examples**](https://github.com/OjasMishra32/twinly-api-examples) · JavaScript · <sub>pushed 8 days ago</sub><br>Starter projects for the Twinly API: iMessage bots, calls in your...
+- [**Deja-View**](https://github.com/OjasMishra32/Deja-View) · TypeScript · <sub>pushed 10 days ago</sub>
+- [**OjasvaMishraWebsite**](https://github.com/OjasMishra32/OjasvaMishraWebsite) · TypeScript · <sub>pushed 11 days ago</sub><br>MyWebsite
 <!-- LATEST:END -->
 
 ### Research
@@ -89,7 +87,7 @@ First author, with Prof. Min Xu and Dr. Xiaolong Wu at Carnegie Mellon. Validate
 
 <div align="center">
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/OjasMishra32/OjasMishra32/output/snake-dark.svg?r=2"><img alt="Contribution graph being eaten by a snake" src="https://raw.githubusercontent.com/OjasMishra32/OjasMishra32/output/snake-light.svg?r=2" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/OjasMishra32/OjasMishra32/output/snake-dark.svg?r=3"><img alt="Contribution graph being eaten by a snake" src="https://raw.githubusercontent.com/OjasMishra32/OjasMishra32/output/snake-light.svg?r=3" width="100%"></picture>
 
 <picture><source media="(prefers-color-scheme: dark)" srcset="https://streak-stats.demolab.com/?user=OjasMishra32&hide_border=true&card_width=600&date_format=M%20j%5B%2C%20Y%5D&background=0D1117&stroke=30363D&ring=58A6FF&fire=3FB950&currStreakNum=E6EDF3&sideNums=E6EDF3&currStreakLabel=58A6FF&sideLabels=8B949E&dates=8B949E"><img alt="GitHub contribution streak" src="https://streak-stats.demolab.com/?user=OjasMishra32&hide_border=true&card_width=600&date_format=M%20j%5B%2C%20Y%5D&background=F6F8FA&stroke=D0D7DE&ring=0969DA&fire=1A7F37&currStreakNum=1F2328&sideNums=1F2328&currStreakLabel=0969DA&sideLabels=59636E&dates=59636E" width="600"></picture>
 

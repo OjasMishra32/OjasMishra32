@@ -97,7 +97,7 @@ def stats(c, u):
     return svg(1200, 60, s, text(600, 38, s, 24, c["gray"], 500, -.2))
 
 
-def photo(path, label, radius=28):
+def photo(path, label, radius=28, crop=None):
     """Embeds a real project image with rounded corners (one file for both themes)."""
     import struct
     with open(path, "rb") as f:
@@ -114,8 +114,9 @@ def photo(path, label, radius=28):
             break
         i += 2 + struct.unpack(">H", data[i + 2:i + 4])[0]
     b64 = base64.b64encode(data).decode()
-    return (f'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{w}" height="{h}" viewBox="0 0 {w} {h}" role="img" aria-label="{x(label)}">'
-            f'<defs><clipPath id="r"><rect width="{w}" height="{h}" rx="{radius * w / 1200:.0f}"/></clipPath></defs>'
+    cx, cy, cw, ch = crop or (0, 0, w, h)
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{cw}" height="{ch}" viewBox="{cx} {cy} {cw} {ch}" role="img" aria-label="{x(label)}">'
+            f'<defs><clipPath id="r"><rect x="{cx}" y="{cy}" width="{cw}" height="{ch}" rx="{radius * cw / 1200:.0f}"/></clipPath></defs>'
             f'<image clip-path="url(#r)" width="{w}" height="{h}" href="data:image/jpeg;base64,{b64}" xlink:href="data:image/jpeg;base64,{b64}"/></svg>\n')
 
 
@@ -140,7 +141,7 @@ def main():
         write(f"stats-{t}.svg", stats(c, u))
         for key, (name, line) in SECTIONS.items():
             write(f"t-{key}-{t}.svg", title(c, name, line))
-    write("photo-courtside.svg", photo(os.path.join(MEDIA, "courtside.jpg"), "Courtside: ball tracking on a real rally, an out call 66 ms early, and the order timeline."))
+    write("photo-courtside.svg", photo(os.path.join(MEDIA, "courtside.jpg"), "Courtside: the tracker following the ball through a real tennis rally, with court lines fitted per frame.", crop=(0, 90, 636, 600)))
     write("photo-dejaview.svg", photo(os.path.join(MEDIA, "dejaview.jpg"), "Deja View: a room reconstructed as a walkable 3D scene in the browser."))
     print("built", len(os.listdir(OUT)), "files")
 

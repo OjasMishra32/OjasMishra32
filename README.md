@@ -24,6 +24,7 @@
 
 <a href="https://github.com/OjasMishra32/applytwin"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/card-applytwin-dark.svg?r=3"><img alt="ApplyTwin: free, open-source job search on autopilot. Finds internships, tailors a resume per posting, fills applications on your own Claude Code or Codex plan." src="assets/card-applytwin-light.svg?r=3" width="100%"></picture></a>
 
+<a href="https://github.com/OjasMishra32/volition"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/card-volition-dark.svg?r=3"><img alt="Volition: concept exoskeleton for paraplegia driven by EEG motor imagery. CadQuery CAD, 1 kHz simulation with torque saturation and anti-windup, BCI decoder." src="assets/card-volition-light.svg?r=3" width="49%"></picture></a>
 <a href="https://github.com/OjasMishra32/computervision_quant_strategy"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/card-computervision_quant_strategy-dark.svg?r=3"><img alt="Courtside: CV ball tracker calls the point a median 162 ms before the bounce; latency study of 13,084 Polymarket markets." src="assets/card-computervision_quant_strategy-light.svg?r=3" width="49%"></picture></a>
 <a href="https://github.com/OjasMishra32/Deja-View"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/card-deja-view-dark.svg?r=3"><img alt="Deja View: photos or video into a walkable 3D world on Quest, web, or Roblox. SwampHacks XII, 1st in two tracks." src="assets/card-deja-view-light.svg?r=3" width="49%"></picture></a>
 <a href="https://github.com/OjasMishra32/fuse"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/card-fuse-dark.svg?r=3"><img alt="FUSE: fold the iPhone Duo to fuse both screens into one AI result." src="assets/card-fuse-light.svg?r=3" width="49%"></picture></a>
@@ -34,11 +35,11 @@
 ### Latest work
 
 <!-- LATEST:START -->
+- [**volition**](https://github.com/OjasMishra32/volition) · HTML · <sub>pushed today</sub><br>Concept brain-controlled exoskeleton for paraplegia: CAD, 1 kHz control...
 - [**applytwin**](https://github.com/OjasMishra32/applytwin) · Python · <sub>pushed today</sub><br>Your job search on autopilot: finds every role that fits you, tailors...
-- [**lucid_dreams**](https://github.com/OjasMishra32/lucid_dreams) · TypeScript · <sub>pushed 5 days ago</sub>
+- [**lucid_dreams**](https://github.com/OjasMishra32/lucid_dreams) · TypeScript · <sub>pushed 6 days ago</sub>
 - [**twinly-api-examples**](https://github.com/OjasMishra32/twinly-api-examples) · JavaScript · <sub>pushed 8 days ago</sub><br>Starter projects for the Twinly API: iMessage bots, calls in your...
-- [**Deja-View**](https://github.com/OjasMishra32/Deja-View) · TypeScript · <sub>pushed 10 days ago</sub>
-- [**OjasvaMishraWebsite**](https://github.com/OjasMishra32/OjasvaMishraWebsite) · TypeScript · <sub>pushed 11 days ago</sub><br>MyWebsite
+- [**Deja-View**](https://github.com/OjasMishra32/Deja-View) · TypeScript · <sub>pushed 11 days ago</sub>
 <!-- LATEST:END -->
 
 ### Research

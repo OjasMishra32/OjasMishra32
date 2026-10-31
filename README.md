@@ -3,7 +3,7 @@
 
 <picture><source media="(prefers-color-scheme: dark)" srcset="assets/header-dark.svg?r=1"><img alt="Ojasva Mishra. Computer Engineering and Finance, University of Florida." src="assets/header-light.svg?r=1" width="100%"></picture>
 
-<a href="https://ojasvamishra.me">ojasvamishra.me</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="https://linkedin.com/in/ojasvamishra">LinkedIn</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="https://github.com/OjasMishra32/applytwin">ApplyTwin</a>
+<a href="https://ojasvamishra.me">ojasvamishra.me</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="https://linkedin.com/in/ojasvamishra">LinkedIn</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="mailto:ojasvamishra32@gmail.com">Email</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="https://github.com/OjasMishra32/applytwin">ApplyTwin</a>
 
 </div>
 

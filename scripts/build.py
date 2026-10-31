@@ -168,9 +168,9 @@ def header(c):
 
 # ---------------------------------------------------------------- about card
 # Neofetch-style card, after Andrew6rant's profile layout (technique only,
-# no code reused). The ASCII art is a robot arm, converted from a three.js
-# render of a Franka-style arm tracking a trajectory.
-ARM = ['                ,,', '                  ;-', '                 :@@#+:', '            :+:,,-*#@@@%-', '            %#%+:  :+##@@#+,', '           *##%+      =%#@@@%-', '          =##%*:        ;+##*+;', '         :##%*;           ,', '         %#%%=  :::::;;:       ;', '        :+%%+ ;:        -:  ;**#;', '            ::           -:;*%#%+', '           ,=             =,  :', '       ,;-***              -;', '       +###+*                ;;', '       +###%+', '       +####*', '      ;+%%%%+=;', '      ;-----=-:']
+# no code reused). The ASCII art is his portrait.
+# a portrait of him in ASCII, from his headshot (background removed); dark mode lights the face, light mode inks it
+PORTRAIT = {"dark": ["", "", "             :---==-:   :", "           .-::.:::..:-==-::", "        -::....:::.....--::.::", "       ::..........:-:.......:-:", "       :........+#%%%%+........--", "       .:....:-+*#%@%%*=:......:", "         ..-#+++==#%#+=+**+....", "         -+*#*++**#@#*++*#%=-", "         +##%%%%%#*##%%%@@@##", "         -%#####***####%%%%@#", "           =########%##%%%#=", "            ***##%%%%@%###", "          :#%++++****##*%", "        --:+@%*+=++++*##%#:", "   --====-::*@@%#*****##@@++=-", "++++=-===--::%@@@@@##*%@@%-=+*++=-", "==-----==---:=@@@%##***#@%--=++=++++", "-------------:+@%=--+##+*#-=========", "--===--===-----#@@%+-=*#@*-====++==="], "light": ["", "", "             #***++*#   #", "           %*##%###%%#*++*##", "        *##%%%%###%@@@%**##%##", "       ##%%@%%%%%%%#*#%%%%%%%#*#", "       #%%%@@@@%=:....=%@@%%%@%**", "       %#%%%%#*=-:....-+#%@@%@%#", "         %@*:===++:.:=+=--=%@%%", "         *=-:-==--:.:-==-:.+*", "         =::.....:-::......::", "         *.:::::---::::.....:", "           +::::::::.::...:+", "            ---::......:::", "          #:.====----::-.", "        **#=..-=+====-::.:#", "   **++++*##-...:-----::..==+*", "====+*+++**##......::-....*+=-==+*", "++*****++***#+....::---:..**+==+====", "*************#=..+**=::=-:*+++++++++", "**+++**+++*****:...=*+-:.-*++++==+++"]}
 
 NEO = {
     "dark": dict(bg="#161b22", text="#c9d1d9", key="#ffa657", value="#a5d6ff", cc="#616e7f", art="#c9d1d9"),
@@ -189,7 +189,7 @@ ROWS = [
     ("Robotics", "ROS2, MuJoCo, Isaac Sim, PX4"),
     ("AI", "PyTorch, OpenCV, VLMs, LLM agents"),
 ]
-CONTACT = [("Website", "ojasvamishra.me"), ("LinkedIn", "in/ojasvamishra"), ("GitHub", "OjasMishra32")]
+CONTACT = [("Website", "ojasvamishra.me"), ("Email", "ojasvamishra32@gmail.com"), ("LinkedIn", "in/ojasvamishra"), ("GitHub", "OjasMishra32")]
 WIDTH = 58  # characters per right-hand line
 
 
@@ -227,8 +227,9 @@ def about(theme, u):
     lines.append(pair("Followers", follow, "Contributions", f"{contrib:,}"))
 
     H = 34 + 20 * len(lines) + 10
-    top = 34 + (len(lines) - len(ARM)) * 10
-    art = "".join(f'<tspan x="20" y="{top + i * 20}">{x(l)}</tspan>' for i, l in enumerate(ARM))
+    art_lines = PORTRAIT[theme]
+    top = 34 + (len(lines) - len(art_lines)) * 10
+    art = "".join(f'<tspan x="20" y="{top + i * 20}">{x(l)}</tspan>' for i, l in enumerate(art_lines))
     body = "".join(f'<tspan x="400" y="{34 + i * 20}">{l}</tspan>' for i, l in enumerate(lines))
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" font-family="{MONO}" font-size="16" role="img" aria-label="ojasva@mishra. UF Computer Engineering and Finance, 2029. Building Drift and Twinly. CMU Xu Lab, 3 first-author papers. AlgoGators quant research. Live GitHub stats.">
 <style>

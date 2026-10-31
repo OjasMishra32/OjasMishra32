@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: ["scripts/**", "render/scenes/skyline.html", ".github/workflows/profile.yml"]
+    paths: ["scripts/**", ".github/workflows/profile.yml"]
 
 permissions:
   contents: write
@@ -15,33 +15,33 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v4
 
-      - name: Section titles with the live contribution count
+      - name: Rebuild cards with live stats
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 scripts/build.py
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-
-      - name: Re-render the 3D contribution skyline
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CHROME_PATH: /usr/bin/google-chrome
-        working-directory: render
-        run: |
-          npm ci --no-audit --no-fund
-          gh api graphql -f query='query($u:String!){user(login:$u){contributionsCollection{contributionCalendar{totalContributions weeks{contributionDays{contributionCount weekday date}}}}}}' -f u="${{ github.repository_owner }}" --jq '.data.user.contributionsCollection.contributionCalendar' > contrib.json
-          for t in dark light; do
-            node render.mjs skyline $t 1200 400 1 out/sky-$t contrib.json
-            cp out/sky-$t/f0000.png ../assets/skyline-$t.png
-          done
-
-      - name: Commit
+      - name: Commit cards
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add assets
           git diff --cached --quiet || (git commit -m "refresh stats" && git push)
+
+      - name: Contribution snake
+        uses: Platane/snk/svg-only@v3
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          outputs: |
+            dist/snake-light.svg?color_snake=#0969da&color_dots=#ebedf0,#9be9a8,#40c463,#30a14e,#216e39
+            dist/snake-dark.svg?palette=github-dark&color_snake=#58a6ff
+
+      - name: Publish snake to the output branch
+        uses: crazy-max/ghaction-github-pages@v4
+        with:
+          target_branch: output
+          build_dir: dist
+          jekyll: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

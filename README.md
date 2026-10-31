@@ -1,84 +1,107 @@
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/hero-dark.svg?v=4"><img alt="Ojasva Mishra. Software Engineer at Northrop Grumman. Computer Engineering + Finance at UF. Robotics, AI systems, quant research." src="assets/hero-light.svg?v=4" width="100%"></picture>
+<br>
+
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/hero-dark.svg?v=5"><img alt="Ojasva Mishra. Software engineer at Northrop Grumman. Computer Engineering and Finance at the University of Florida." src="assets/hero-light.svg?v=5" width="100%"></picture>
 
 <p align="center">
-  <a href="https://ojasvamishra.me"><b>ojasvamishra.me</b></a> &nbsp;·&nbsp; <a href="https://linkedin.com/in/ojasvamishra"><b>LinkedIn</b></a> &nbsp;·&nbsp; <a href="https://github.com/OjasMishra32/applytwin"><b>ApplyTwin</b></a>
+<a href="https://ojasvamishra.me">ojasvamishra.me ›</a>&emsp;&emsp;<a href="https://linkedin.com/in/ojasvamishra">LinkedIn ›</a>
+</p>
+
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/stats-dark.svg?v=5"><img alt="3 first-author papers, 1,000+ Twinly users, contributions this year." src="assets/stats-light.svg?v=5" width="100%"></picture>
+
+<br><br><br>
+
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/t-applytwin-dark.svg?v=5"><img alt="ApplyTwin. Your job search, on autopilot. Free and open source." src="assets/t-applytwin-light.svg?v=5" width="100%"></picture>
+
+<p align="center">
+Finds internships that fit you, tailors a resume to each posting,<br>and fills the applications on your own Claude Code or Codex plan.
+</p>
+
+<p align="center">
+<a href="https://github.com/OjasMishra32/applytwin">Learn more ›</a>
+</p>
+
+<br><br><br>
+
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/t-courtside-dark.svg?v=5"><img alt="Courtside. Calls the point a median 162 ms before the bounce." src="assets/t-courtside-light.svg?v=5" width="100%"></picture>
+
+<p align="center">
+A causal computer-vision ball tracker running at 119.9 fps, with no wrong calls on held-out table tennis.<br>Plus a latency study of 13,084 Polymarket tennis markets. Gator Quant Hacks 2026.
+</p>
+
+<p align="center">
+<a href="https://github.com/OjasMishra32/computervision_quant_strategy">Learn more ›</a>&emsp;&emsp;<a href="https://drive.google.com/file/d/1ZMOhVQHA-lSsqmIboTntavcxZIRGt4Nr/view">Read the paper ›</a>
+</p>
+
+<img alt="Courtside: tracked ball on a real rally, an out call 66 ms early, and the order timeline." src="assets/photo-courtside.svg?v=5" width="100%">
+
+<br><br><br>
+
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/t-dejaview-dark.svg?v=5"><img alt="Deja View. Photos of any space, turned into a world you walk into." src="assets/t-dejaview-light.svg?v=5" width="100%"></picture>
+
+<p align="center">
+Meta Quest, the browser, or Roblox. A ~1M-Gaussian splat trained on UF HiPerGator in 11 minutes.<br>1st in AI/ML and 1st in DeepSpace at SwampHacks XII.
+</p>
+
+<p align="center">
+<a href="https://deja-view.photo">Try it live ›</a>&emsp;&emsp;<a href="https://github.com/OjasMishra32/Deja-View">Learn more ›</a>
+</p>
+
+<img alt="Deja View: a room reconstructed as a walkable 3D scene in the browser." src="assets/photo-dejaview.svg?v=5" width="100%">
+
+<br><br><br>
+
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/t-experience-dark.svg?v=5"><img alt="Experience" src="assets/t-experience-light.svg?v=5" width="100%"></picture>
+
+<p align="center">
+<b>Software Engineer, Northrop Grumman</b>
+</p>
+
+<p align="center">
+<b>Founding AI/Software Engineer, Drift</b><br>Infrastructure for a robotics AI coding workspace used by 1,000+ people. Backed by Antler.
+</p>
+
+<p align="center">
+<b>Co-Founder and CEO, Twinly</b><br>Digital clones that work across macOS, Windows, and iOS. 1,000+ active users. Z Fellows.
+</p>
+
+<p align="center">
+<b>Research Intern, Carnegie Mellon University</b><br>Robot control and safety in Prof. Min Xu&#39;s lab, validated on a Franka Emika Panda.
+</p>
+
+<p align="center">
+<b>Quantitative Research Analyst, AlgoGators</b><br>1 of 2 first-years on the quant team of a ~$500K AUM student fund.
+</p>
+
+<p align="center">
+<b>Earlier</b><br>EV Bots, autonomous EV-charging robot &emsp;·&emsp; PteroLabs, UAV simulation &emsp;·&emsp; iPipeline, software
+</p>
+
+<br><br><br>
+
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/t-research-dark.svg?v=5"><img alt="Research" src="assets/t-research-light.svg?v=5" width="100%"></picture>
+
+<p align="center">
+<b>Constraint-Aware Discrete-Time PID Gain Optimization for Robotic Joint Control Under Actuator Saturation</b><br>First author. IEEE T-RO.&emsp;<a href="https://arxiv.org/abs/2601.18639v3">Read ›</a>
+</p>
+
+<p align="center">
+<b>Bounding Detector-Accepted Feedback Authority in Torque-Limited Robot Control</b><br>First author. ICRA 2027.&emsp;<a href="https://drive.google.com/file/d/1RI-l036hcbN7q3P3Y6LXI9N9ho1Zr-AK/view?usp=share_link">Read ›</a>
+</p>
+
+<p align="center">
+<b>SCIG++: Risk-Limiting Conformal Safety Filtering for Attack-Resilient Robotic Joint Control Under Saturation</b><br>First author. IROS 2026.&emsp;<a href="https://drive.google.com/file/d/1COkJVmCta2tpfIe8U3wy_0fB3YzXXIv5/view?usp=sharing">Read ›</a>
+</p>
+
+<br><br><br>
+
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/t-more-dark.svg?v=5"><img alt="Also built" src="assets/t-more-light.svg?v=5" width="100%"></picture>
+
+<p align="center">
+<a href="https://github.com/OjasMishra32/fuse">FUSE ›</a>&emsp;&emsp;<a href="https://github.com/OjasMishra32/eyesight">Eyesight ›</a>&emsp;&emsp;<a href="https://github.com/OjasMishra32/Preventa">PreventaAI ›</a>&emsp;&emsp;<a href="https://github.com/OjasMishra32/twinly-api-examples">Twinly API ›</a>
+</p>
+
+<p align="center">
+Z Fellows &emsp;·&emsp; YC Startup School 2026 &emsp;·&emsp; 1st, YC Transpose &emsp;·&emsp; VEX Worlds 3x &emsp;·&emsp; TSA national finalist 2x
 </p>
 
 <br>
-
-## Now
-
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/now-dark.svg?v=4"><img alt="Now: Northrop Grumman, Software Engineer. Drift, founding AI/software engineer. CMU Xu Lab, 3 first-author robotics papers. Twinly, co-founder and CEO." src="assets/now-light.svg?v=4" width="100%"></picture>
-
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/numbers-dark.svg?v=4"><img alt="3 first-author papers. 1,000+ Twinly users. ApplyTwin stars and contributions this year, updated daily." src="assets/numbers-light.svg?v=4" width="100%"></picture>
-
-<br>
-
-## Projects
-
-<a href="https://github.com/OjasMishra32/applytwin"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/applytwin-dark.svg?v=4"><img alt="ApplyTwin: free, open-source job search on autopilot. Finds internships, tailors a resume per posting, fills applications on your own Claude Code or Codex plan." src="assets/applytwin-light.svg?v=4" width="100%"></picture></a>
-
-<a href="https://github.com/OjasMishra32/computervision_quant_strategy"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/courtside-dark.svg?v=4"><img alt="Courtside: computer-vision ball tracker that calls the point a median 162 ms before the bounce at 119.9 fps; latency study of 13,084 Polymarket tennis markets." src="assets/courtside-light.svg?v=4" width="100%"></picture></a>
-
-<a href="https://github.com/OjasMishra32/Deja-View"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/dejaview-dark.svg?v=4"><img alt="Deja View: photos or video of any space become a walkable 3D world on Meta Quest, in a browser, or in Roblox. SwampHacks XII, 1st AI/ML and 1st DeepSpace." src="assets/dejaview-light.svg?v=4" width="100%"></picture></a>
-
-**More:**
-
-- <a href="https://github.com/OjasMishra32/fuse"><b>FUSE</b></a> &nbsp;Native iOS app for Bitrig Hacks (Y Combinator). Fold the iPhone Duo to fuse both screens into one AI result.
-- <a href="https://github.com/OjasMishra32/eyesight"><b>Eyesight</b></a> &nbsp;LiDAR plus on-device CoreML obstacle detection on iPhone.
-- <a href="https://github.com/OjasMishra32/Preventa"><b>PreventaAI</b></a> &nbsp;iOS app on the App Store, rated 5.0. SwiftUI and Firebase.
-- <a href="https://github.com/OjasMishra32/twinly-api-examples"><b>Twinly API examples</b></a> &nbsp;iMessage bots, calls in your voice, voice notes, and tasks on the Twinly API.
-
-<br>
-
-## Research
-
-First author on three robot control papers with Prof. Min Xu and Dr. Xiaolong Wu at Carnegie Mellon, validated on a Franka Emika Panda.
-
-- <b>IEEE T-RO</b> &nbsp;<a href="https://arxiv.org/abs/2601.18639v3">Constraint-Aware Discrete-Time PID Gain Optimization for Robotic Joint Control Under Actuator Saturation</a>
-- <b>ICRA 2027</b> &nbsp;<a href="https://drive.google.com/file/d/1RI-l036hcbN7q3P3Y6LXI9N9ho1Zr-AK/view?usp=share_link">Bounding Detector-Accepted Feedback Authority in Torque-Limited Robot Control</a>
-- <b>IROS 2026</b> &nbsp;<a href="https://drive.google.com/file/d/1COkJVmCta2tpfIe8U3wy_0fB3YzXXIv5/view?usp=sharing">SCIG++: Risk-Limiting Conformal Safety Filtering for Attack-Resilient Robotic Joint Control Under Saturation</a>
-- <b>SSRN</b> &nbsp;<a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5408322">Introduction to Robotics and Programming</a>, a 120-page open-access textbook
-
-<br>
-
-## Experience
-
-<table>
-<tr><td><b>Northrop Grumman</b><br>Software Engineer</td><td>Current role.</td></tr>
-<tr><td><b>Drift</b> (Antler)<br>Founding AI/software engineer</td><td>Core infrastructure for a robotics AI coding workspace with 1,000+ users across ROS2, Gazebo, MuJoCo, and Isaac Sim. Shipped photo-to-3D scenes and a 129-robot catalog; traced a production Gazebo freeze to gz-transport multicast and fixed it.</td></tr>
-<tr><td><b>CMU Xu Lab</b><br>Research intern</td><td>Actuator-aware control, conformal safety filtering, and secure feedback control. Multimodal SLAM and constrained control from perception to actuation.</td></tr>
-<tr><td><b>Twinly</b><br>Co-founder and CEO</td><td>Digital clones of how you write, talk, and use a computer. macOS, Windows, and iOS apps with 1,000+ active users, including paying customers. Z Fellows cohort.</td></tr>
-<tr><td><b>AlgoGators</b><br>Quant research analyst</td><td>1 of 2 first-years on the quant team of a ~$500K AUM student fund. Crack spread strategy with a 64% win rate across live trades.</td></tr>
-<tr><td><b>EV Bots</b><br>AI robotics intern</td><td>Built the first working autonomous EV-charging robot prototype. The work went into multiple provisional patents.</td></tr>
-<tr><td><b>PteroLabs</b><br>UAV simulation intern</td><td>Unreal Engine 5 UAV simulator with PX4, ArduPilot, and Betaflight SITL, used by UPenn for research.</td></tr>
-<tr><td><b>iPipeline</b><br>Software intern</td><td>Test frameworks, AI agents, and developer tooling adopted across engineering teams.</td></tr>
-</table>
-
-<br>
-
-## Recognition
-
-- **Z Fellows**, 10-builder cohort &nbsp;·&nbsp; **YC Startup School** 2026
-- **1st place**, YC Transpose (HIVE)
-- **1st AI/ML** and **1st DeepSpace**, SwampHacks XII (Déjà View)
-- **2nd of 200+**, Startup in a Weekend Philly (GlassBoxAI)
-- **VEX Worlds** 3x &nbsp;·&nbsp; **TSA national finalist** 2x
-
-<br>
-
-## Stack
-
-<p align="center">
-<picture><source media="(prefers-color-scheme: dark)" srcset="https://skillicons.dev/icons?i=py%2Ccpp%2Crust%2Cswift%2Cts%2Ccs%2Cjava%2Creact&theme=dark&perline=8"><img alt="py, cpp, rust, swift, ts, cs, java, react" src="https://skillicons.dev/icons?i=py%2Ccpp%2Crust%2Cswift%2Cts%2Ccs%2Cjava%2Creact&theme=light&perline=8" width="400"></picture>
-<br>
-<picture><source media="(prefers-color-scheme: dark)" srcset="https://skillicons.dev/icons?i=nextjs%2Ctauri%2Cpytorch%2Copencv%2Cros%2Cunity%2Cdocker%2Caws&theme=dark&perline=8"><img alt="nextjs, tauri, pytorch, opencv, ros, unity, docker, aws" src="https://skillicons.dev/icons?i=nextjs%2Ctauri%2Cpytorch%2Copencv%2Cros%2Cunity%2Cdocker%2Caws&theme=light&perline=8" width="400"></picture>
-</p>
-
-<br>
-
-## Contributions
-
-<picture><source media="(prefers-color-scheme: dark)" srcset="profile-3d-contrib/profile-night-rainbow.svg"><img alt="3D contribution calendar" src="profile-3d-contrib/profile-green-animate.svg" width="100%"></picture>
-
-<p align="center"><sub>Cards are generated by <a href="scripts/build.py">scripts/build.py</a> and refreshed daily by a GitHub Action.</sub></p>

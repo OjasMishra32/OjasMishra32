@@ -35,7 +35,7 @@ query($login: String!) {
     repositories(ownerAffiliations: OWNER, privacy: PUBLIC, isFork: false, first: 100) {
       totalCount
       nodes {
-        name stargazerCount
+        name stargazerCount description url pushedAt
         primaryLanguage { name color }
         languages(first: 10, orderBy: {field: SIZE, direction: DESC}) {
           edges { size node { name color } }
@@ -102,49 +102,45 @@ def header(c):
     dots = "".join(f'<circle cx="{gx}" cy="{gy}" r="1.4"/>'
                    for gx in range(X0, X1 + 1, 47) for gy in range(Y0, Y1 + 1, 42))
 
-    # Typing line: each phrase gets a 4 s slot; textLength pins the width so
-    # the clip and cursor line up with the glyphs in any monospace font.
-    cw, slot, tx, ty, fs = 12.0, 4.0, 66, 246, 20
+    # Rotating line: phrases cross-fade and rise in turn. Only opacity and a
+    # small translate are animated (linear, strictly increasing keyTimes), so
+    # there is never partial text on screen. With animation off, the opacity
+    # attributes leave exactly the first phrase visible.
+    cw, slot, tx, ty, fs = 12.0, 3.2, 66, 246, 20
+    fade = 0.35
     total = slot * len(TYPED)
     lines = []
     for i, s in enumerate(TYPED):
-        n, w = len(s), len(s) * cw
-        start = i * slot
-        times, widths = [0.0], [0.0]
-        type_d, hold, erase_d = 1.6, 1.7, 0.45
-        for k in range(1, n + 1):
-            times.append(start + type_d * k / n); widths.append(k * cw)
-        times.append(start + type_d + hold); widths.append(w)
-        for k in range(n - 1, -1, -1):
-            times.append(start + type_d + hold + erase_d * (n - k) / n); widths.append(k * cw)
-        if start > 0:
-            times.insert(1, start); widths.insert(1, 0.0)
-        times.append(total); widths.append(0.0)
-        kt = ";".join(f"{t / total:.5f}" for t in times)
-        vals = ";".join(f"{v:.1f}" for v in widths)
-        xs = ";".join(f"{tx + v:.1f}" for v in widths)
-        vis = f"{start / total:.5f};{(start + slot) / total:.5f}"
-        # only one phrase is ever visible, even where a viewer ignores the animated clip (or all animation)
-        show, showkt = ("1;0", f"0;{slot / total:.5f}") if i == 0 else ("0;1;0", f"0;{vis}")
+        w = len(s) * cw
+        a, b = i * slot, (i + 1) * slot
+        pts = [(a, 0.0, 8.0), (a + fade, 1.0, 0.0), (b - fade, 1.0, 0.0), (b, 0.0, -8.0)]
+        if a > 0:
+            pts.insert(0, (0.0, 0.0, 8.0))
+        if b < total:
+            pts.append((total, 0.0, 8.0))
+        kt = ";".join(f"{t / total:.4f}" for t, _, _ in pts)
+        op = ";".join(f"{o:g}" for _, o, _ in pts)
+        dy = ";".join(f"0 {d:g}" for _, _, d in pts)
+        anim = (f'<animate attributeName="opacity" values="{op}" keyTimes="{kt}" dur="{total}s" repeatCount="indefinite"/>'
+                f'<animateTransform attributeName="transform" type="translate" values="{dy}" keyTimes="{kt}" dur="{total}s" repeatCount="indefinite"/>')
         lines.append(f'''
-    <clipPath id="c{i}"><rect x="{tx}" y="{ty - 22}" height="30" width="0">
-      <animate attributeName="width" values="{vals}" keyTimes="{kt}" dur="{total}s" calcMode="discrete" repeatCount="indefinite"/>
-    </rect></clipPath>
-    <text x="{tx}" y="{ty}" clip-path="url(#c{i})" opacity="{1 if i == 0 else 0}" textLength="{w:.0f}" lengthAdjust="spacingAndGlyphs" font-family="{MONO}" font-size="{fs}" fill="{c['fg']}">{x(s)}
-      <animate attributeName="opacity" values="{show}" keyTimes="{showkt}" dur="{total}s" calcMode="discrete" repeatCount="indefinite"/></text>
-    <rect y="{ty - 18}" width="10" height="23" fill="{c['accent']}" opacity="0">
-      <animate attributeName="x" values="{xs}" keyTimes="{kt}" dur="{total}s" calcMode="discrete" repeatCount="indefinite"/>
-      <animate attributeName="opacity" values="0;1;0" keyTimes="0;{vis}" dur="{total}s" calcMode="discrete" repeatCount="indefinite"/>
-    </rect>''')
+    <g opacity="{1 if i == 0 else 0}">{anim}
+      <text x="{tx}" y="{ty}" textLength="{w:.0f}" lengthAdjust="spacingAndGlyphs" font-family="{MONO}" font-size="{fs}" fill="{c['fg']}">{x(s)}</text>
+      <rect class="blink" x="{tx + w + 4:.0f}" y="{ty - 18}" width="10" height="23" fill="{c['accent']}"/>
+    </g>''')
 
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-label="Ojasva Mishra. Computer Engineering and Finance at the University of Florida.">
   <style>
     .draw {{ stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 2.6s cubic-bezier(.3,.7,.2,1) .3s forwards; }}
     .ghost {{ stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 2.6s ease-out .1s forwards; }}
     @keyframes draw {{ to {{ stroke-dashoffset: 0; }} }}
-    @media (prefers-reduced-motion: reduce) {{ .draw, .ghost {{ animation: none; stroke-dashoffset: 0; }} }}
+    .blink {{ animation: blink 1.1s steps(1) infinite; }}
+    @media (max-width: 700px) {{ .viz {{ display: none; }} .txt {{ transform: translate(-22px,-64px) scale(1.42); }} }}
+    @keyframes blink {{ 50% {{ opacity: 0; }} }}
+    @media (prefers-reduced-motion: reduce) {{ .draw, .ghost, .blink {{ animation: none; stroke-dashoffset: 0; }} }}
   </style>
   <rect x="1" y="1" width="{W - 2}" height="{H - 2}" rx="16" fill="{c['card']}" stroke="{c['border']}" stroke-width="2"/>
+  <g class="txt">
   <g>
     <text x="62" y="120" fill="{c['fg']}" font-family="{SANS}" font-size="64" font-weight="700" letter-spacing="-1.5">Ojasva Mishra</text>
     <text x="65" y="168" fill="{c['muted']}" font-family="{SANS}" font-size="25">Computer Engineering + Finance, University of Florida</text>
@@ -152,6 +148,8 @@ def header(c):
     <text x="40" y="246" fill="{c['accent2']}" font-family="{MONO}" font-size="20">&gt;</text>
   </g>
   {"".join(lines)}
+  </g>
+  <g class="viz">
   <g fill="{c['faint']}">{dots}</g>
   <g fill="none" stroke-linecap="round" stroke-linejoin="round">
     <line x1="{X0}" y1="{ym(1):.1f}" x2="{X1}" y2="{ym(1):.1f}" stroke="{c['ghost']}" stroke-width="1.5" stroke-dasharray="5 7"/>
@@ -161,6 +159,7 @@ def header(c):
   <g font-family="{MONO}" font-size="14" fill="{c['muted']}">
     <text x="{X0}" y="{Y1 + 36}">joint step response, torque-limited</text>
     <text x="{X1}" y="{ym(1) - 12:.1f}" text-anchor="end">q_ref</text>
+  </g>
   </g>
 </svg>
 '''
@@ -231,43 +230,58 @@ def about(theme, u):
     top = 34 + (len(lines) - len(art_lines)) * 10
     art = "".join(f'<tspan x="20" y="{top + i * 20}">{x(l)}</tspan>' for i, l in enumerate(art_lines))
     body = "".join(f'<tspan x="400" y="{34 + i * 20}">{l}</tspan>' for i, l in enumerate(lines))
+    # phone layout: the README column is ~330px there, so fewer, larger lines
+    short = [("ojasva@mishra", None), ("UF", "CompE + Finance, 2029"), ("Building", "Drift, Twinly"),
+             ("Research", "CMU, 3 papers"), ("Quant", "AlgoGators"), ("Code", "Python, C++, Rust"),
+             ("Stars", f"{stars}, {contrib:,} contribs")]
+    nfs, nlh = 36, (H - 40) / len(short)
+    narrow = "".join(
+        (f'<text x="44" y="{40 + nlh * (i + .6):.0f}" fill="{c["text"]}" font-weight="700">{x(k)}</text>' if v is None else
+         f'<text x="44" y="{40 + nlh * (i + .6):.0f}"><tspan class="key">{x(k)}</tspan><tspan class="cc">: </tspan><tspan class="value">{x(v)}</tspan></text>')
+        for i, (k, v) in enumerate(short))
+    ptop = (H - 15 * len(art_lines)) / 2 + 12
+    narrow += f'<text fill="{c["art"]}" font-size="10.5" xml:space="preserve">' + "".join(
+        f'<tspan x="738" y="{ptop + i * 15:.0f}">{x(l)}</tspan>' for i, l in enumerate(art_lines)) + '</text>'
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" font-family="{MONO}" font-size="16" role="img" aria-label="ojasva@mishra. UF Computer Engineering and Finance, 2029. Building Drift and Twinly. CMU Xu Lab, 3 first-author papers. AlgoGators quant research. Live GitHub stats.">
 <style>
 .key {{ fill: {c['key']}; }} .value {{ fill: {c['value']}; }} .cc {{ fill: {c['cc']}; }}
 text, tspan {{ white-space: pre; }}
+.n {{ display: none; }}
+@media (max-width: 700px) {{ .w {{ display: none; }} .n {{ display: inline; }} }}
 </style>
 <rect width="{W}" height="{H}" rx="15" fill="{c['bg']}"/>
-<text fill="{c['art']}" xml:space="preserve">{art}</text>
-<text fill="{c['text']}" xml:space="preserve">{body}</text>
+<g class="w"><text fill="{c['art']}" xml:space="preserve">{art}</text>
+<text fill="{c['text']}" xml:space="preserve">{body}</text></g>
+<g class="n" font-size="{nfs}">{narrow}</g>
 </svg>
 '''
 
 
 # ---------------------------------------------------------------- project cards
 PROJECTS = [
-    dict(repo="applytwin", title="ApplyTwin", wide=True,
+    dict(repo="applytwin", short="Job search on autopilot, open source", title="ApplyTwin", wide=True,
          lines=["Free, open-source job search on autopilot. Finds internships",
                 "that fit, tailors a resume to each posting, and fills the",
                 "applications, all on your own Claude Code or Codex plan."],
          tag="flagship / open source"),
-    dict(repo="computervision_quant_strategy", title="Courtside",
+    dict(repo="computervision_quant_strategy", short="Calls points 162 ms early", title="Courtside",
          lines=["CV ball tracker calls the point a median 162 ms", "before the bounce at 119.9 fps; latency study",
                 "of 13,084 Polymarket tennis markets."],
          tag="Gator Quant Hacks 2026"),
-    dict(repo="Deja-View", title="Déjà View",
+    dict(repo="Deja-View", short="Photos into 3D worlds", title="Déjà View",
          lines=["Photos or video of any space into a walkable", "3D world on Quest, web, or Roblox. ~1M-Gaussian",
                 "splat trained on HiPerGator in 11 min."],
          tag="SwampHacks XII, 1st in 2 tracks"),
-    dict(repo="fuse", title="FUSE",
+    dict(repo="fuse", short="Two screens, one AI result", title="FUSE",
          lines=["Native iOS app: fold the iPhone Duo to fuse", "both screens into one AI result.", ""],
          tag="Bitrig Hacks, Y Combinator"),
-    dict(repo="eyesight", title="Eyesight",
+    dict(repo="eyesight", short="LiDAR obstacle detection", title="Eyesight",
          lines=["LiDAR plus on-device CoreML obstacle", "detection on iPhone.", ""],
          tag="iOS / CoreML"),
-    dict(repo="Preventa", title="PreventaAI",
+    dict(repo="Preventa", short="App Store, rated 5.0", title="PreventaAI",
          lines=["iOS app on the App Store, rated 5.0.", "SwiftUI and Firebase.", ""],
          tag="App Store"),
-    dict(repo="twinly-api-examples", title="Twinly API examples",
+    dict(repo="twinly-api-examples", short="Twinly API starters", title="Twinly API examples",
          lines=["Starter projects for the Twinly API: iMessage", "bots, calls in your voice, voice notes, tasks.", ""],
          tag="Twinly"),
 ]
@@ -300,16 +314,62 @@ def card(c, p, info):
             flow += (f'<circle cx="822" cy="{yy - 6}" r="5" fill="{c["accent2"]}"/>'
                      + (f'<line x1="822" y1="{yy}" x2="822" y2="{yy + 22}" stroke="{c["border"]}" stroke-width="2"/>' if i < 2 else "")
                      + f'<text x="840" y="{yy}" font-family="{MONO}" font-size="17"><tspan fill="{c["key"]}">{k}</tspan><tspan fill="{c["muted"]}">  {x(v)}</tspan></text>')
+    if wide:
+        narrow = (f'<text x="44" y="78" font-family="{SANS}" font-size="56" font-weight="700" fill="{c["accent"]}">{x(p["title"])}</text>'
+                  f'<text x="44" y="138" font-family="{SANS}" font-size="38" fill="{c["fg"]}">{x(p["short"])}</text>'
+                  f'<text x="44" y="190" font-family="{SANS}" font-size="32" fill="{c["muted"]}">{x(p["tag"])}  ·  ★ {stars}</text>')
+    else:
+        narrow = (f'<text x="36" y="86" font-family="{SANS}" font-size="62" font-weight="700" fill="{c["accent"]}">{x(p["title"])}</text>'
+                  f'<text x="36" y="152" font-family="{SANS}" font-size="40" fill="{c["fg"]}">{x(p["short"])}</text>')
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-label="{x(p['title'])}: {x(' '.join(p['lines']))}">
+  <style>.n {{ display: none; }} @media (max-width: {700 if wide else 300}px) {{ .w {{ display: none; }} .n {{ display: inline; }} }}</style>
   <rect x="1" y="1" width="{W - 2}" height="{H - 2}" rx="14" fill="{c['card']}" stroke="{c['border']}" stroke-width="2"/>
+  <g class="n">{narrow}</g>
+  <g class="w">
   <g transform="translate(30,{24 if wide else 22}) scale({1.5 if wide else 1.3})" fill="{c['muted']}"><path d="{REPO_ICON}"/></g>
   <text x="{70 if wide else 62}" y="{48 if wide else 42}" font-family="{SANS}" font-size="{30 if wide else 24}" font-weight="700" fill="{c['accent']}">{x(p['title'])}</text>
   <text x="{W - 30}" y="{48 if wide else 42}" text-anchor="end" font-family="{MONO}" font-size="{16 if wide else 14}" fill="{c['accent2']}">{x(p['tag'])}</text>
   <g font-family="{SANS}" font-size="{fs}" fill="{c['fg']}">{body}</g>
   <g font-family="{SANS}" font-size="{17 if wide else 15}" fill="{c['muted']}">{lang_svg}{star_svg}</g>
   {flow}
+  </g>
 </svg>
 '''
+
+
+SKIP_LATEST = {"OjasMishra32", "OjasMishra32.github.io", "twinner-web", "twinly-releases", "twinly-releases-windows", "twinlypitchdeck"}
+
+
+def ago(iso):
+    import datetime
+    d = datetime.datetime.now(datetime.timezone.utc) - datetime.datetime.fromisoformat(iso.replace("Z", "+00:00"))
+    days = d.days
+    return "today" if days < 1 else "yesterday" if days < 2 else f"{days} days ago" if days < 30 else f"{days // 30} months ago"
+
+
+def latest(u, n=5):
+    repos = sorted((r for r in u["repositories"]["nodes"] if r["name"] not in SKIP_LATEST), key=lambda r: r["pushedAt"], reverse=True)[:n]
+    rows = []
+    for r in repos:
+        desc = (r["description"] or "").replace("\u2014", ",").replace("\u2013", "-").split(" Docs:")[0].strip()
+        if len(desc) > 72:
+            desc = desc[:72].rsplit(" ", 1)[0].rstrip(",.:;") + "..."
+        lang = (r["primaryLanguage"] or {}).get("name")
+        bits = " · ".join(b for b in [desc, lang] if b)
+        rows.append(f"| [**{r['name']}**]({r['url']}) | {bits} | {ago(r['pushedAt'])} |")
+    return "| Repo | What | Last push |\n| :-- | :-- | --: |\n" + "\n".join(rows)
+
+
+def update_readme(u):
+    path = os.path.join(ROOT, "README.md")
+    with open(path, encoding="utf-8") as f:
+        text = f.read()
+    a, b = "<!-- LATEST:START -->", "<!-- LATEST:END -->"
+    if a in text and b in text:
+        i, j = text.index(a) + len(a), text.index(b)
+        text = text[:i] + "\n" + latest(u) + "\n" + text[j:]
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(text)
 
 
 def main():
@@ -321,6 +381,7 @@ def main():
         write(f"about-{theme}.svg", about(theme, u))
         for p in PROJECTS:
             write(f"card-{p['repo'].lower()}-{theme}.svg", card(c, p, by_name.get(p["repo"], {})))
+    update_readme(u)
     print("built", len(os.listdir(OUT)), "files")
 
 

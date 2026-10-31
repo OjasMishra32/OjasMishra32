@@ -107,7 +107,7 @@ def title(c, name, line, W=1200):
         body = f'<g class="w">{text(W / 2, 74, name, 62, c["fg"], 700, -1.8)}</g><g class="n">{text(W / 2, 104, name, 112, c["fg"], 700, -3)}</g>'
         return svg(W, 130, name, body, SWAP)
     a, b = split2(line)
-    wide = text(W / 2, 110, name, 62, c["fg"], 700, -1.8) + text(W / 2, 166, line, 30, c["gray"], 500, -.3)
+    wide = text(W / 2, 150, name, 62, c["fg"], 700, -1.8) + text(W / 2, 206, line, 30, c["gray"], 500, -.3)
     narrow = (text(W / 2, 104, name, 112, c["fg"], 700, -3)
               + text(W / 2, 190, a, 60, c["gray"], 500, -.8) + text(W / 2, 262, b, 60, c["gray"], 500, -.8))
     return svg(W, 290, f"{name}. {line}", f'<g class="w">{wide}</g><g class="n">{narrow}</g>', SWAP)

@@ -38,7 +38,7 @@ First author, with Prof. Min Xu and Dr. Xiaolong Wu at Carnegie Mellon. Validate
 
 ### Work
 
-| | | |
+| Where | Role | What I did |
 | :-- | :-- | :-- |
 | **Drift** | Founding AI/software engineer | Infra for a robotics coding workspace with 1,000+ users across ROS2, Gazebo, MuJoCo, Isaac Sim. Photo-to-3D scenes, a 129-robot catalog, and a fix for a production Gazebo freeze traced to gz-transport multicast. |
 | **CMU Xu Lab** | Research intern | Actuator-aware control, conformal safety filtering, secure feedback control. SLAM and constrained control from perception to actuation. |
@@ -50,15 +50,19 @@ First author, with Prof. Min Xu and Dr. Xiaolong Wu at Carnegie Mellon. Validate
 
 ### Wins
 
-Z Fellows (10-builder cohort) &nbsp;/&nbsp; YC Startup School 2026 &nbsp;/&nbsp; 1st, YC Transpose (HIVE) &nbsp;/&nbsp; 1st AI/ML and 1st DeepSpace, SwampHacks XII &nbsp;/&nbsp; 2nd of 200+, Startup in a Weekend Philly &nbsp;/&nbsp; VEX Worlds, 3x &nbsp;/&nbsp; TSA national finalist, 2x
+- Z Fellows, 10-builder cohort, and YC Startup School 2026
+- 1st place, YC Transpose (HIVE: computer vision that turns a workspace into task graphs)
+- 1st AI/ML and 1st DeepSpace, SwampHacks XII (Déjà View)
+- 2nd of 200+, Startup in a Weekend Philly (GlassBoxAI)
+- VEX Robotics World Championship, 3x; TSA national finalist, 2x
 
 ### Stack
 
 <div align="center">
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="https://skillicons.dev/icons?i=py,cpp,rust,swift,ts,js,cs,java,react,nextjs,nodejs,tauri&theme=dark&perline=12"><img alt="py, cpp, rust, swift, ts, js, cs, java, react, nextjs, nodejs, tauri" src="https://skillicons.dev/icons?i=py,cpp,rust,swift,ts,js,cs,java,react,nextjs,nodejs,tauri&theme=light&perline=12" width="600"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://skillicons.dev/icons?i=py%2Ccpp%2Crust%2Cswift%2Cts%2Cjs%2Ccs%2Cjava%2Creact%2Cnextjs%2Cnodejs%2Ctauri&theme=dark&perline=12"><img alt="py, cpp, rust, swift, ts, js, cs, java, react, nextjs, nodejs, tauri" src="https://skillicons.dev/icons?i=py%2Ccpp%2Crust%2Cswift%2Cts%2Cjs%2Ccs%2Cjava%2Creact%2Cnextjs%2Cnodejs%2Ctauri&theme=light&perline=12"></picture>
 <br>
-<picture><source media="(prefers-color-scheme: dark)" srcset="https://skillicons.dev/icons?i=pytorch,opencv,ros,unity,blender,docker,aws,gcp,linux,postgres,supabase,firebase&theme=dark&perline=12"><img alt="pytorch, opencv, ros, unity, blender, docker, aws, gcp, linux, postgres, supabase, firebase" src="https://skillicons.dev/icons?i=pytorch,opencv,ros,unity,blender,docker,aws,gcp,linux,postgres,supabase,firebase&theme=light&perline=12" width="600"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://skillicons.dev/icons?i=pytorch%2Copencv%2Cros%2Cunity%2Cblender%2Cdocker%2Caws%2Cgcp%2Clinux%2Cpostgres%2Csupabase%2Cfirebase&theme=dark&perline=12"><img alt="pytorch, opencv, ros, unity, blender, docker, aws, gcp, linux, postgres, supabase, firebase" src="https://skillicons.dev/icons?i=pytorch%2Copencv%2Cros%2Cunity%2Cblender%2Cdocker%2Caws%2Cgcp%2Clinux%2Cpostgres%2Csupabase%2Cfirebase&theme=light&perline=12"></picture>
 
 </div>
 

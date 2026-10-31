@@ -91,9 +91,9 @@ def split2(s):
 
 def hero(c):
     W, H = 1200, 450
-    wide = (text(600, 195, "Ojasva Mishra", 116, c["fg"], 700, -4, cls="rise")
-            + text(600, 277, "Software engineer at Northrop Grumman.", 34, c["gray"], 500, -.4, cls="rise2")
-            + text(600, 323, "Computer Engineering and Finance at the University of Florida.", 34, c["gray"], 500, -.4, cls="rise2"))
+    wide = (text(600, 220, "Ojasva Mishra", 116, c["fg"], 700, -4, cls="rise")
+            + text(600, 302, "Software engineer at Northrop Grumman.", 34, c["gray"], 500, -.4, cls="rise2")
+            + text(600, 348, "Computer Engineering and Finance at the University of Florida.", 34, c["gray"], 500, -.4, cls="rise2"))
     narrow = (text(600, 160, "Ojasva Mishra", 150, c["fg"], 700, -5, cls="rise")
               + text(600, 262, "Software engineer at Northrop Grumman.", 60, c["gray"], 500, -.8, cls="rise2")
               + text(600, 336, "Computer Engineering and Finance", 60, c["gray"], 500, -.8, cls="rise2")

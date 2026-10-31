@@ -124,11 +124,14 @@ def header(c):
         vals = ";".join(f"{v:.1f}" for v in widths)
         xs = ";".join(f"{tx + v:.1f}" for v in widths)
         vis = f"{start / total:.5f};{(start + slot) / total:.5f}"
+        # only one phrase is ever visible, even where a viewer ignores the animated clip (or all animation)
+        show, showkt = ("1;0", f"0;{slot / total:.5f}") if i == 0 else ("0;1;0", f"0;{vis}")
         lines.append(f'''
     <clipPath id="c{i}"><rect x="{tx}" y="{ty - 22}" height="30" width="0">
       <animate attributeName="width" values="{vals}" keyTimes="{kt}" dur="{total}s" calcMode="discrete" repeatCount="indefinite"/>
     </rect></clipPath>
-    <text x="{tx}" y="{ty}" clip-path="url(#c{i})" textLength="{w:.0f}" lengthAdjust="spacingAndGlyphs" font-family="{MONO}" font-size="{fs}" fill="{c['fg']}">{x(s)}</text>
+    <text x="{tx}" y="{ty}" clip-path="url(#c{i})" opacity="{1 if i == 0 else 0}" textLength="{w:.0f}" lengthAdjust="spacingAndGlyphs" font-family="{MONO}" font-size="{fs}" fill="{c['fg']}">{x(s)}
+      <animate attributeName="opacity" values="{show}" keyTimes="{showkt}" dur="{total}s" calcMode="discrete" repeatCount="indefinite"/></text>
     <rect y="{ty - 18}" width="10" height="23" fill="{c['accent']}" opacity="0">
       <animate attributeName="x" values="{xs}" keyTimes="{kt}" dur="{total}s" calcMode="discrete" repeatCount="indefinite"/>
       <animate attributeName="opacity" values="0;1;0" keyTimes="0;{vis}" dur="{total}s" calcMode="discrete" repeatCount="indefinite"/>

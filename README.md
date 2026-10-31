@@ -1,4 +1,4 @@
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/hero-dark.svg?v=3"><img alt="Ojasva Mishra. Software Engineer at Northrop Grumman. Computer Engineering + Finance at UF. Robotics, AI systems, quant research." src="assets/hero-light.svg?v=3" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/hero-dark.svg?v=4"><img alt="Ojasva Mishra. Software Engineer at Northrop Grumman. Computer Engineering + Finance at UF. Robotics, AI systems, quant research." src="assets/hero-light.svg?v=4" width="100%"></picture>
 
 <p align="center">
   <a href="https://ojasvamishra.me"><b>ojasvamishra.me</b></a> &nbsp;·&nbsp; <a href="https://linkedin.com/in/ojasvamishra"><b>LinkedIn</b></a> &nbsp;·&nbsp; <a href="https://github.com/OjasMishra32/applytwin"><b>ApplyTwin</b></a>
@@ -8,19 +8,19 @@
 
 ## Now
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/now-dark.svg?v=3"><img alt="Now: Northrop Grumman, Software Engineer. Drift, founding AI/software engineer. CMU Xu Lab, 3 first-author robotics papers. Twinly, co-founder and CEO." src="assets/now-light.svg?v=3" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/now-dark.svg?v=4"><img alt="Now: Northrop Grumman, Software Engineer. Drift, founding AI/software engineer. CMU Xu Lab, 3 first-author robotics papers. Twinly, co-founder and CEO." src="assets/now-light.svg?v=4" width="100%"></picture>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/numbers-dark.svg?v=3"><img alt="3 first-author papers. 1,000+ Twinly users. ApplyTwin stars and contributions this year, updated daily." src="assets/numbers-light.svg?v=3" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/numbers-dark.svg?v=4"><img alt="3 first-author papers. 1,000+ Twinly users. ApplyTwin stars and contributions this year, updated daily." src="assets/numbers-light.svg?v=4" width="100%"></picture>
 
 <br>
 
 ## Projects
 
-<a href="https://github.com/OjasMishra32/applytwin"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/applytwin-dark.svg?v=3"><img alt="ApplyTwin: free, open-source job search on autopilot. Finds internships, tailors a resume per posting, fills applications on your own Claude Code or Codex plan." src="assets/applytwin-light.svg?v=3" width="100%"></picture></a>
+<a href="https://github.com/OjasMishra32/applytwin"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/applytwin-dark.svg?v=4"><img alt="ApplyTwin: free, open-source job search on autopilot. Finds internships, tailors a resume per posting, fills applications on your own Claude Code or Codex plan." src="assets/applytwin-light.svg?v=4" width="100%"></picture></a>
 
-<a href="https://github.com/OjasMishra32/computervision_quant_strategy"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/courtside-dark.svg?v=3"><img alt="Courtside: computer-vision ball tracker that calls the point a median 162 ms before the bounce at 119.9 fps; latency study of 13,084 Polymarket tennis markets." src="assets/courtside-light.svg?v=3" width="100%"></picture></a>
+<a href="https://github.com/OjasMishra32/computervision_quant_strategy"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/courtside-dark.svg?v=4"><img alt="Courtside: computer-vision ball tracker that calls the point a median 162 ms before the bounce at 119.9 fps; latency study of 13,084 Polymarket tennis markets." src="assets/courtside-light.svg?v=4" width="100%"></picture></a>
 
-<a href="https://github.com/OjasMishra32/Deja-View"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/dejaview-dark.svg?v=3"><img alt="Deja View: photos or video of any space become a walkable 3D world on Meta Quest, in a browser, or in Roblox. SwampHacks XII, 1st AI/ML and 1st DeepSpace." src="assets/dejaview-light.svg?v=3" width="100%"></picture></a>
+<a href="https://github.com/OjasMishra32/Deja-View"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/dejaview-dark.svg?v=4"><img alt="Deja View: photos or video of any space become a walkable 3D world on Meta Quest, in a browser, or in Roblox. SwampHacks XII, 1st AI/ML and 1st DeepSpace." src="assets/dejaview-light.svg?v=4" width="100%"></picture></a>
 
 **More:**
 

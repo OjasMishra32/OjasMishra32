@@ -35,11 +35,11 @@
 ### Latest work
 
 <!-- LATEST:START -->
-- [**lucid_dreams**](https://github.com/OjasMishra32/lucid_dreams) · TypeScript · <sub>pushed today</sub>
-- [**applytwin**](https://github.com/OjasMishra32/applytwin) · Python · <sub>pushed 3 days ago</sub><br>Your job search on autopilot: finds every role that fits you, tailors...
-- [**OjasvaMishraWebsite**](https://github.com/OjasMishra32/OjasvaMishraWebsite) · TypeScript · <sub>pushed 4 days ago</sub><br>MyWebsite
-- [**volition**](https://github.com/OjasMishra32/volition) · Python · <sub>pushed 9 days ago</sub><br>Concept brain-controlled exoskeleton for paraplegia: CAD, 1 kHz control...
-- [**twinly-api-examples**](https://github.com/OjasMishra32/twinly-api-examples) · JavaScript · <sub>pushed 18 days ago</sub><br>Starter projects for the Twinly API: iMessage bots, calls in your...
+- [**applytwin**](https://github.com/OjasMishra32/applytwin) · Python · <sub>pushed today</sub><br>Your job search on autopilot: finds every role that fits you, tailors...
+- [**COP3502C**](https://github.com/OjasMishra32/COP3502C) · <sub>pushed today</sub>
+- [**lucid_dreams**](https://github.com/OjasMishra32/lucid_dreams) · TypeScript · <sub>pushed yesterday</sub>
+- [**OjasvaMishraWebsite**](https://github.com/OjasMishra32/OjasvaMishraWebsite) · TypeScript · <sub>pushed 5 days ago</sub><br>MyWebsite
+- [**volition**](https://github.com/OjasMishra32/volition) · Python · <sub>pushed 10 days ago</sub><br>Concept brain-controlled exoskeleton for paraplegia: CAD, 1 kHz control...
 <!-- LATEST:END -->
 
 ### Research

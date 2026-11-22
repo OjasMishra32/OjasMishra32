@@ -35,11 +35,11 @@
 ### Latest work
 
 <!-- LATEST:START -->
-- [**lab11-OM-SP**](https://github.com/OjasMishra32/lab11-OM-SP) · Python · <sub>pushed 3 days ago</sub>
-- [**lucid_dreams**](https://github.com/OjasMishra32/lucid_dreams) · TypeScript · <sub>pushed 7 days ago</sub>
-- [**OjasvaMishraWebsite**](https://github.com/OjasMishra32/OjasvaMishraWebsite) · JavaScript · <sub>pushed 9 days ago</sub><br>MyWebsite
-- [**applytwin**](https://github.com/OjasMishra32/applytwin) · Python · <sub>pushed 10 days ago</sub><br>Your job search on autopilot: finds every role that fits you, tailors...
-- [**volition**](https://github.com/OjasMishra32/volition) · Python · <sub>pushed 20 days ago</sub><br>Concept brain-controlled exoskeleton for paraplegia: CAD, 1 kHz control...
+- [**lab11-OM-SP**](https://github.com/OjasMishra32/lab11-OM-SP) · Python · <sub>pushed 4 days ago</sub>
+- [**lucid_dreams**](https://github.com/OjasMishra32/lucid_dreams) · TypeScript · <sub>pushed 8 days ago</sub>
+- [**OjasvaMishraWebsite**](https://github.com/OjasMishra32/OjasvaMishraWebsite) · JavaScript · <sub>pushed 10 days ago</sub><br>MyWebsite
+- [**applytwin**](https://github.com/OjasMishra32/applytwin) · Python · <sub>pushed 11 days ago</sub><br>Your job search on autopilot: finds every role that fits you, tailors...
+- [**volition**](https://github.com/OjasMishra32/volition) · Python · <sub>pushed 21 days ago</sub><br>Concept brain-controlled exoskeleton for paraplegia: CAD, 1 kHz control...
 <!-- LATEST:END -->
 
 ### Research
